@@ -7,8 +7,8 @@
 export type ClientArticle = {
   title: string;
   url: string;
-  /** ISO date, e.g. "2023-05-14" */
-  date: string;
+  /** ISO date, e.g. "2023-05-14" (optional when unknown) */
+  date?: string;
 };
 
 export type Client = {
@@ -24,7 +24,7 @@ export type Client = {
   since?: number;
   /** Alexandre's author page on the client's site */
   authorPage?: string;
-  /** Selection of articles written for the client, newest first or in any order */
+  /** Articles written for the client, newest first (shown in this order) */
   articles: ClientArticle[];
 };
 
@@ -54,6 +54,47 @@ export const CLIENTS: Client[] = [
     articles: [],
   },
   { slug: 'verysaas', name: 'Verysaas.io', website: 'https://verysaas.io', offer: ['agency'], articles: [] },
+  {
+    slug: 'explorateur-ai',
+    name: 'Explorateur.ai',
+    sector: "Outils et usages de l'IA",
+    website: 'https://explorateur.ai',
+    offer: ['agency'],
+    since: 2024,
+    articles: [
+      { title: "Lucide.ai : le meilleur détecteur d'IA français", url: 'https://explorateur.ai/blog/avis-lucide-ai', date: '2025-07-28' },
+      { title: 'Comment savoir si un texte a été écrit par ChatGPT ?', url: 'https://explorateur.ai/blog/comment-savoir-si-texte-ecrit-par-chatgpt', date: '2025-07-25' },
+      { title: "Les 5 meilleurs détecteurs d'IA en 2025", url: 'https://explorateur.ai/blog/meilleurs-detecteurs-ia', date: '2025-07-24' },
+      { title: 'Les 9 meilleurs logiciels pour ajouter des sous-titres vidéo', url: 'https://explorateur.ai/blog/meilleurs-outils-sous-titres', date: '2025-07-22' },
+      { title: 'Semrush ou Ranxplorer : quel outil SEO choisir ? Comparatif', url: 'https://explorateur.ai/blog/semrush-rankxplorer', date: '2025-07-03' },
+      { title: 'Devenir créateur de contenu en 2025', url: 'https://explorateur.ai/blog/devenir-createur-de-contenu-en-2025', date: '2025-06-28' },
+      { title: 'La méthode pour devenir Podcasteur en 2025', url: 'https://explorateur.ai/blog/devenir-podcasteur', date: '2025-06-16' },
+      { title: 'Rémunération TikTok en 2025 : le tutoriel complet', url: 'https://explorateur.ai/blog/remuneration-tiktok', date: '2025-06-14' },
+      { title: 'Les 10 business les plus rentables au monde', url: 'https://explorateur.ai/blog/business-rentables', date: '2025-06-11' },
+      { title: 'Rankerfox avis 2025 : la meilleure solution pour accéder aux meilleurs outils SEO à petit prix ?', url: 'https://explorateur.ai/blog/avis-rankerfox', date: '2025-06-03' },
+      { title: 'Comment percer sur YouTube en 2025', url: 'https://explorateur.ai/blog/comment-percer-sur-youtube', date: '2025-05-29' },
+      { title: "Gagner de l'argent à la maison : guide complet pour transformer son salon en source de revenus", url: 'https://explorateur.ai/blog/gagner-argent-maison', date: '2025-05-29' },
+      { title: 'Liste de compétences : le guide complet pour identifier, développer et valoriser votre capital professionnel', url: 'https://explorateur.ai/liste-competences/', date: '2025-05-29' },
+      { title: 'Combien rapporte 1 million de vues sur YouTube ?', url: 'https://explorateur.ai/blog/combien-rapporte-1-million-de-vues-youtube', date: '2025-05-16' },
+      { title: 'Mindset : la clé du succès qui façonne votre avenir', url: 'https://explorateur.ai/blog/mindset', date: '2025-05-16' },
+      { title: 'Comment surmonter le syndrome de la page blanche ?', url: 'https://explorateur.ai/blog/syndrome-page-blanche', date: '2025-05-16' },
+      { title: "To-Do Lists : le guide complet 2025 pour maîtriser l'art de la liste de tâches", url: 'https://explorateur.ai/blog/to-do-lists' },
+      { title: 'Thot SEO : meilleur outil SEO en 2025 ?', url: 'https://explorateur.ai/thot-seo/' },
+      { title: 'Créer une communauté en 2025', url: 'https://explorateur.ai/blog/creer-une-communaute', date: '2024-12-24' },
+      { title: 'Comment créer une formation en ligne ?', url: 'https://explorateur.ai/creer-une-formation/', date: '2024-11-30' },
+      { title: 'Créer un prompt IA efficace facilement', url: 'https://explorateur.ai/blog/prompt-ia', date: '2024-11-28' },
+      { title: "Avis Submagic : l'outil ultime pour personnaliser vos vidéos", url: 'https://explorateur.ai/avis-submagic/', date: '2024-11-25' },
+      { title: 'Guide complet pour ajouter des sous-titres à vos vidéos', url: 'https://explorateur.ai/ajouter-sous-titres-videos/', date: '2024-11-24' },
+    ],
+  },
+  {
+    slug: 'gaspard-immo',
+    name: 'Gaspard.immo',
+    website: 'https://gaspard.immo',
+    offer: ['agency'],
+    authorPage: 'https://gaspard.immo/author/alexandre/',
+    articles: [],
+  },
   { slug: 'finixio', name: 'Finixio', offer: ['agency'], articles: [] },
   { slug: 'clickout-media', name: 'Clickout Média', offer: ['agency'], articles: [] },
 ];

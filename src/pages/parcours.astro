@@ -5,11 +5,10 @@ import ClientLogo from '../components/ClientLogo.astro';
 import { CLIENTS, OWN_MEDIA } from '../data/clients';
 import { getPublications, formatDate } from '../lib/feed';
 
-// Articles shown per client before the "all articles" link to the author page
+// Articles shown per client before the rest is folded into a "show more" block
 const PREVIEW = 5;
 const ownArticles = (await getPublications()).filter((p) => p.source === 'article').slice(0, PREVIEW);
 const clients = [...CLIENTS].sort((a, b) => (a.since ?? 9999) - (b.since ?? 9999));
-const sortedArticles = <T extends { date: string }>(list: T[]) => [...list].sort((a, b) => +new Date(b.date) - +new Date(a.date));
 ---
 <Base title="Parcours" description="Les médias et entreprises pour lesquels Alexandre Plunian écrit depuis 2022 : pages auteur et articles publiés.">
   <div class="wrap page-hero">
@@ -52,13 +51,20 @@ const sortedArticles = <T extends { date: string }>(list: T[]) => [...list].sort
           </div>
           {c.articles.length > 0 && (
             <ul class="articles">
-              {sortedArticles(c.articles).slice(0, PREVIEW).map((a) => (
-                <li><a href={a.url} target="_blank" rel="noopener">{a.title}</a><time datetime={a.date}>{formatDate(a.date)}</time></li>
+              {c.articles.slice(0, PREVIEW).map((a) => (
+                <li><a href={a.url} target="_blank" rel="noopener">{a.title}</a>{a.date && <time datetime={a.date}>{formatDate(a.date)}</time>}</li>
               ))}
             </ul>
           )}
-          {c.authorPage && c.articles.length > PREVIEW && (
-            <a class="all" href={c.authorPage} target="_blank" rel="noopener">Tous mes articles chez {c.name} ({c.articles.length}) →</a>
+          {c.articles.length > PREVIEW && (
+            <details>
+              <summary>Voir les {c.articles.length - PREVIEW} autres articles</summary>
+              <ul class="articles">
+                {c.articles.slice(PREVIEW).map((a) => (
+                  <li><a href={a.url} target="_blank" rel="noopener">{a.title}</a>{a.date && <time datetime={a.date}>{formatDate(a.date)}</time>}</li>
+                ))}
+              </ul>
+            </details>
           )}
         </article>
       ))}
@@ -82,7 +88,11 @@ const sortedArticles = <T extends { date: string }>(list: T[]) => [...list].sort
   .articles a { text-decoration: none; font-weight: 500; }
   .articles a:hover { color: var(--blue); }
   .articles time { font-family: var(--f-mono); font-size: 12px; color: var(--muted); white-space: nowrap; padding-top: 3px; }
-  .all { align-self: flex-start; font-weight: 600; color: var(--blue); text-decoration: none; }
+  details summary { cursor: pointer; font-weight: 600; color: var(--blue); list-style: none; }
+  details summary::-webkit-details-marker { display: none; }
+  details summary::after { content: " ↓"; }
+  details[open] summary { margin-bottom: 12px; }
+  details[open] summary::after { content: " ↑"; }
   @media (max-width: 640px) {
     .entry-head { grid-template-columns: auto minmax(0, 1fr); }
     .entry-head .pill { grid-column: 1 / -1; justify-self: start; }
