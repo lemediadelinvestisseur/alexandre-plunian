@@ -1,0 +1,30 @@
+---
+// Client logo from public/clients/<slug>.<ext>, or the name as a text wordmark when no file exists.
+import { existsSync } from 'node:fs';
+import type { Client } from '../data/clients';
+
+interface Props { client: Client; size?: 'tile' | 'small' }
+const { client, size = 'tile' } = Astro.props;
+const file = ['svg', 'png', 'webp', 'jpg']
+  .map((ext) => `/clients/${client.slug}.${ext}`)
+  .find((path) => existsSync(`public${path}`));
+---
+<span class:list={['client-mark', size]}>
+  {file ? (
+    <img src={file} alt={client.name} loading="lazy" />
+  ) : (
+    <span class="wordmark" aria-label={client.name}>{size === 'small' ? client.name.slice(0, 1) : client.name}</span>
+  )}
+</span>
+<style>
+  .client-mark { display: grid; place-items: center; min-width: 0; }
+  .client-mark img { max-width: 100%; max-height: 100%; object-fit: contain; }
+  .wordmark {
+    font-family: var(--f-display); font-weight: 700; letter-spacing: -.02em; color: var(--ink);
+    text-align: center; line-height: 1.1;
+  }
+  .tile { width: 100%; height: 56px; }
+  .tile .wordmark { font-size: clamp(16px, 1.6vw, 21px); }
+  .small { width: 56px; height: 56px; border-radius: 14px; background: var(--bg); padding: 8px; flex: none; }
+  .small .wordmark { font-size: 24px; color: var(--blue); }
+</style>

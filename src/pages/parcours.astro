@@ -1,0 +1,101 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import ClientLogo from '../components/ClientLogo.astro';
+import { CLIENTS, OWN_MEDIA } from '../data/clients';
+import { getPublications, formatDate } from '../lib/feed';
+
+// Articles shown per client before the rest is folded into a "show more" block
+const PREVIEW = 5;
+const ownArticles = (await getPublications()).filter((p) => p.source === 'article').slice(0, PREVIEW);
+const clients = [...CLIENTS].sort((a, b) => (a.since ?? 9999) - (b.since ?? 9999));
+---
+<Base title="Parcours" description="Les médias et entreprises pour lesquels Alexandre Plunian écrit depuis 2022 : pages auteur et articles publiés.">
+  <div class="wrap page-hero">
+    <p class="eyebrow">Parcours · Rédaction</p>
+    <h1>J'écris sur l'investissement <em>depuis 2022.</em></h1>
+    <p class="lead">Pour mon média et pour des marques de la finance, de la crypto et de la tech. Chaque page auteur montre les articles publiés chez le client.</p>
+  </div>
+
+  <section style="padding-top: 0">
+    <div class="wrap history">
+      <article class="entry" id="le-media-de-l-investisseur">
+        <div class="entry-head">
+          <span class="own-mark" aria-hidden="true"><Icon name="trend" /></span>
+          <div>
+            <h2>{OWN_MEDIA.name}</h2>
+            <p class="meta">{OWN_MEDIA.role} · depuis {OWN_MEDIA.since}</p>
+          </div>
+          <a class="pill outline" href={OWN_MEDIA.authorPage} target="_blank" rel="noopener">Ma page auteur <Icon name="external" /></a>
+        </div>
+        <ul class="articles">
+          {ownArticles.map((a) => (
+            <li><a href={a.url} target="_blank" rel="noopener">{a.title}</a><time datetime={a.date}>{formatDate(a.date)}</time></li>
+          ))}
+        </ul>
+      </article>
+
+      {clients.map((c) => (
+        <article class="entry" id={c.slug}>
+          <div class="entry-head">
+            <ClientLogo client={c} size="small" />
+            <div>
+              <h2>{c.name}</h2>
+              {(c.sector || c.since) && <p class="meta">{[c.sector, c.since && `depuis ${c.since}`].filter(Boolean).join(' · ')}</p>}
+            </div>
+            {c.authorPage ? (
+              <a class="pill outline" href={c.authorPage} target="_blank" rel="noopener">Ma page auteur <Icon name="external" /></a>
+            ) : c.website ? (
+              <a class="pill outline" href={c.website} target="_blank" rel="noopener">Voir le site <Icon name="external" /></a>
+            ) : null}
+          </div>
+          {c.articles.length > 0 && (
+            <ul class="articles">
+              {c.articles.slice(0, PREVIEW).map((a) => (
+                <li><a href={a.url} target="_blank" rel="noopener">{a.title}</a>{a.date && <time datetime={a.date}>{formatDate(a.date)}</time>}</li>
+              ))}
+            </ul>
+          )}
+          {c.articles.length > PREVIEW && (
+            <details>
+              <summary>Voir les {c.articles.length - PREVIEW} autres articles</summary>
+              <ul class="articles">
+                {c.articles.slice(PREVIEW).map((a) => (
+                  <li><a href={a.url} target="_blank" rel="noopener">{a.title}</a>{a.date && <time datetime={a.date}>{formatDate(a.date)}</time>}</li>
+                ))}
+              </ul>
+            </details>
+          )}
+        </article>
+      ))}
+    </div>
+  </section>
+</Base>
+<style>
+  .history { display: flex; flex-direction: column; gap: 16px; padding-bottom: 32px; }
+  .entry {
+    background: var(--surface); border-radius: var(--r-md); padding: clamp(20px, 3vw, 32px);
+    display: flex; flex-direction: column; gap: 18px; scroll-margin-top: 100px;
+  }
+  .entry:target { outline: 2px solid var(--blue); }
+  .entry-head { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 16px; align-items: center; }
+  .entry-head h2 { font-size: clamp(22px, 2.4vw, 28px); font-weight: 700; }
+  .meta { color: var(--muted); font-size: 15px; }
+  .own-mark { width: 56px; height: 56px; border-radius: 14px; background: var(--blue); color: #fff; display: grid; place-items: center; }
+  .own-mark :global(svg) { width: 26px; height: 26px; }
+  .articles { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+  .articles li { display: flex; justify-content: space-between; gap: 20px; padding-block: 12px; border-bottom: 1px solid var(--line); }
+  .articles a { text-decoration: none; font-weight: 500; }
+  .articles a:hover { color: var(--blue); }
+  .articles time { font-family: var(--f-mono); font-size: 12px; color: var(--muted); white-space: nowrap; padding-top: 3px; }
+  details summary { cursor: pointer; font-weight: 600; color: var(--blue); list-style: none; }
+  details summary::-webkit-details-marker { display: none; }
+  details summary::after { content: " ↓"; }
+  details[open] summary { margin-bottom: 12px; }
+  details[open] summary::after { content: " ↑"; }
+  @media (max-width: 640px) {
+    .entry-head { grid-template-columns: auto minmax(0, 1fr); }
+    .entry-head .pill { grid-column: 1 / -1; justify-self: start; }
+    .articles li { flex-direction: column; gap: 4px; }
+  }
+</style>

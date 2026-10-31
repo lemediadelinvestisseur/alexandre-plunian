@@ -1,0 +1,31 @@
+---
+// Logo wall of clients, each tile linking to its section on /parcours.
+import ClientLogo from './ClientLogo.astro';
+import { CLIENTS } from '../data/clients';
+---
+<ul class="client-wall">
+  {CLIENTS.map((c) => (
+    <li>
+      <a href={`/parcours#${c.slug}`} aria-label={`${c.name} : voir le travail réalisé`}>
+        <ClientLogo client={c} />
+      </a>
+    </li>
+  ))}
+</ul>
+<style>
+  .client-wall {
+    list-style: none; margin: 0; padding: 0;
+    display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px;
+  }
+  .client-wall a {
+    display: flex; align-items: center; justify-content: center; height: 120px; padding: 24px;
+    background: var(--surface); border-radius: var(--r-md); text-decoration: none;
+    border: 1px solid transparent; transition: border-color .2s, transform .2s;
+  }
+  .client-wall a:hover { border-color: var(--blue); transform: translateY(-2px); }
+  @media (min-width: 1100px) { .client-wall { grid-template-columns: repeat(6, minmax(0, 1fr)); } }
+  @media (max-width: 480px) {
+    .client-wall { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .client-wall a { height: 96px; padding: 16px; }
+  }
+</style>

@@ -24,7 +24,7 @@ export const NAV = [
   { href: '/investissements', label: 'Investissements' },
   { href: '/media', label: 'Média' },
   { href: '/agence', label: 'Agence' },
-  { href: '/book', label: 'Références' },
+  { href: '/parcours', label: 'Parcours' },
   { href: '/publications', label: 'Publications' },
 ] as const;
 
