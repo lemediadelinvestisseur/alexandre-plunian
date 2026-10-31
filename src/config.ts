@@ -10,7 +10,7 @@ export const SITE = {
    * Numéro WhatsApp au format international, chiffres seulement (ex. « 33612345678 »).
    * Tant qu'il est vide, les boutons WhatsApp ne s'affichent pas.
    */
-  whatsapp: '',
+  whatsapp: '33615112384',
   whatsappMessage: "Bonjour Alexandre, je vous contacte depuis votre site au sujet d'un partenariat.",
   media: { name: "Le Média de l'investisseur", url: 'https://lemediadelinvestisseur.fr' },
   socials: {

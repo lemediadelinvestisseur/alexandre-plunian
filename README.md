@@ -26,11 +26,11 @@ npm run check    # vérification des types + build
 
 ## Ce qu'il reste à renseigner
 
-- **WhatsApp** : `whatsapp` dans `src/config.ts` (format international sans « + », ex. `33612345678`).
-  Tant qu'il est vide, les boutons WhatsApp sont masqués.
 - **Book clients** : une entrée par client dans `src/data/clients.ts`, logos dans `public/clients/`.
-- **Photo** : déposer `public/portrait.jpg` (format paysage 4:3) ; elle remplace les initiales.
-- **Mentions légales** : raison sociale, adresse et SIREN dans `src/pages/mentions-legales.astro`.
+- **Mentions légales** : forme juridique, raison sociale et adresse dans `src/pages/mentions-legales.astro`.
+
+Le numéro WhatsApp se change dans `src/config.ts` (format international sans « + ») ; la photo est
+`public/portrait.jpg` (format paysage 4:3).
 - **Offres** : textes dans `src/data/offers.ts`.
 
 ## Mise en ligne (Netlify)

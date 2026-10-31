@@ -432,3 +432,6 @@ a.tag-glass:hover { background: rgba(255,255,255,.24); }
 .nav .mobile-menu .wrap { align-items: stretch; gap: 0; }
 .choice label { white-space: nowrap; }
 .mobile-menu .pills { margin-left: 0; }
+/* Le dégradé occupe toute la grille : la photo doit être placée explicitement dans la première cellule */
+.contact > .portrait { grid-column: 1; grid-row: 1; }
+.newsletter-form input { background: #FFFFFF; }
