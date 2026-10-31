@@ -26,6 +26,7 @@ export const NAV = [
   { href: '/agence', label: 'Agence' },
   { href: '/book', label: 'Références' },
   { href: '/publications', label: 'Publications' },
+  { href: '/contact', label: 'Contact' },
 ] as const;
 
 export function whatsappLink(message: string = SITE.whatsappMessage): string | null {

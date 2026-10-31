@@ -1,39 +1,39 @@
 ---
 import Base from '../layouts/Base.astro';
-import Icon from '../components/Icon.astro';
-import OfferCard from '../components/OfferCard.astro';
+import Offers from '../components/Offers.astro';
 import Process from '../components/Process.astro';
 import { AGENCY_OFFERS } from '../data/offers';
-import { whatsappLink } from '../config';
+import { SITE, whatsappLink } from '../config';
 const wa = whatsappLink("Bonjour Alexandre, j'aimerais parler d'un projet de contenu avec votre agence.");
 ---
 <Base title="Agence de contenu" description="Gestion des réseaux sociaux, rédaction d'articles SEO, stratégie de contenu et vidéos courtes pour les acteurs de la finance.">
-  <div class="wrap page-hero">
-    <p class="eyebrow">L'agence · Production de contenu</p>
-    <h1>Le savoir-faire du média, <em>pour votre marque.</em></h1>
-    <p class="lead">Nous produisons pour vous ce que nous faisons tous les jours pour le média : du contenu finance clair, juste et bien référencé. Pour les fintechs, courtiers, plateformes d'investissement et conseillers.</p>
-    <div class="actions">
-      <a class="pill primary" href="/contact">Parler de votre projet <Icon name="arrow" /></a>
-      {wa && <a class="pill whatsapp" href={wa} target="_blank" rel="noopener">En parler sur WhatsApp <Icon name="whatsapp" /></a>}
-    </div>
-  </div>
-
-  <section style="padding-top: 24px">
-    <div class="wrap">
-      <div class="section-title"><div><p class="eyebrow">Services</p><h2>Ce que nous prenons en charge</h2></div></div>
-      <div class="offer-detail">{AGENCY_OFFERS.map((o) => <OfferCard offer={o} detailed />)}</div>
-    </div>
-  </section>
-
-  <section style="padding-top: 0">
-    <div class="wrap">
-      <div class="section-title"><div><p class="eyebrow">Pourquoi nous</p><h2>Des spécialistes de la finance</h2></div></div>
-      <div class="why">
-        <div><h3>On connaît le sujet</h3><p>Nous écrivons sur l'investissement chaque semaine. Pas besoin de tout vous réexpliquer.</p></div>
-        <div><h3>On écrit pour Google</h3><p>Les méthodes qui font venir les lecteurs du média sont appliquées à votre site.</p></div>
-        <div><h3>On respecte les règles</h3><p>Pas de promesse de gain, des risques mentionnés : un contenu que votre conformité peut valider.</p></div>
+  <div class="wrap">
+    <div class="intro">
+      <h1>Le savoir-faire du média, pour votre marque.</h1>
+      <p class="lead">Nous produisons pour vous ce que nous faisons chaque jour pour le média : du contenu finance clair, juste et bien référencé. Pour les fintechs, courtiers, plateformes d'investissement et conseillers.</p>
+      <div class="actions">
+        <a class="button" href={`mailto:${SITE.email}?subject=${encodeURIComponent('Projet de contenu')}`}>Parler de votre projet</a>
+        {wa && <a class="link" href={wa} target="_blank" rel="noopener">WhatsApp</a>}
       </div>
-      <Process />
     </div>
-  </section>
+
+    <section class="block">
+      <h2>Services</h2>
+      <div><Offers offers={AGENCY_OFFERS} detailed /></div>
+    </section>
+
+    <section class="block">
+      <h2>Pourquoi nous</h2>
+      <div class="items">
+        <div class="item"><h3>Nous connaissons le sujet</h3><p>Nous écrivons sur l'investissement chaque semaine. Rien à réexpliquer.</p></div>
+        <div class="item"><h3>Nous écrivons pour Google</h3><p>Les méthodes qui font venir les lecteurs du média sont appliquées à votre site.</p></div>
+        <div class="item"><h3>Nous respectons les règles</h3><p>Pas de promesse de gain, des risques mentionnés : un contenu que votre conformité peut valider.</p></div>
+      </div>
+    </section>
+
+    <section class="block">
+      <h2>Déroulé</h2>
+      <div><Process /></div>
+    </section>
+  </div>
 </Base>

@@ -1,38 +1,34 @@
 ---
 import Base from '../layouts/Base.astro';
-import Icon from '../components/Icon.astro';
 import { SITE, whatsappLink } from '../config';
 const wa = whatsappLink();
 ---
 <Base title="Contact" description="Proposer un partenariat média, un projet d'agence ou une intervention à Alexandre Plunian.">
-  <div class="wrap page-hero">
-    <p class="eyebrow">Contact</p>
-    <h1>Travaillons <em>ensemble.</em></h1>
-    <p class="lead">Décrivez votre projet en quelques lignes. Je réponds sous 48 h ouvrées avec une première proposition.</p>
-  </div>
-
-  <section style="padding-top: 0">
-    <div class="wrap">
-      <aside class="side">
-        {wa && (
-          <div class="card">
-            <div class="card-top"><Icon name="whatsapp" /><span class="fmt">EN DIRECT</span></div>
-            <h4>WhatsApp</h4>
-            <p>Pour un échange rapide, écrivez-moi directement.</p>
-            <a class="pill whatsapp" href={wa} target="_blank" rel="noopener" style="align-self:flex-start">Ouvrir WhatsApp <Icon name="arrow" /></a>
-          </div>
-        )}
-        <div class="card">
-          <div class="card-top"><Icon name="mail" /><span class="fmt">E-MAIL</span></div>
-          <h4>Par e-mail</h4>
-          <p><a href={`mailto:${SITE.email}`}>{SITE.email}</a></p>
-        </div>
-        <div class="card">
-          <div class="card-top"><Icon name="share" /><span class="fmt">RÉSEAUX</span></div>
-          <h4>Sur les réseaux</h4>
-          <p><a href={SITE.socials.linkedin} target="_blank" rel="noopener">LinkedIn</a> · <a href={SITE.socials.x} target="_blank" rel="noopener">X</a> · <a href={SITE.socials.youtube} target="_blank" rel="noopener">YouTube</a></p>
-        </div>
-      </aside>
+  <div class="wrap">
+    <div class="intro">
+      <h1>Contact.</h1>
+      <p class="lead">Partenariat, projet de contenu ou intervention : quelques lignes suffisent. Réponse sous 48 h ouvrées.</p>
     </div>
-  </section>
+
+    <section class="block">
+      <h2>Écrire</h2>
+      <div>
+        <ul class="rows">
+          <li><a class="row" href={`mailto:${SITE.email}`}><span class="title">{SITE.email}</span><span class="meta">E-mail</span></a></li>
+          {wa && <li><a class="row" href={wa} target="_blank" rel="noopener"><span class="title arrow-out">WhatsApp</span><span class="meta">Réponse rapide</span></a></li>}
+        </ul>
+      </div>
+    </section>
+
+    <section class="block">
+      <h2>Ailleurs</h2>
+      <div>
+        <ul class="rows">
+          <li><a class="row" href={SITE.socials.x} target="_blank" rel="noopener"><span class="title arrow-out">X</span><span class="meta">@le_investisseur</span></a></li>
+          <li><a class="row" href={SITE.socials.linkedin} target="_blank" rel="noopener"><span class="title arrow-out">LinkedIn</span><span class="meta">plunianalexandre</span></a></li>
+          <li><a class="row" href={SITE.socials.youtube} target="_blank" rel="noopener"><span class="title arrow-out">YouTube</span><span class="meta">@alexandreplunian</span></a></li>
+        </ul>
+      </div>
+    </section>
+  </div>
 </Base>

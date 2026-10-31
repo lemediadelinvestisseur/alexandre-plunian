@@ -1,41 +1,16 @@
 ---
-import Icon from './Icon.astro';
-import Portrait from './Portrait.astro';
-import { SITE, whatsappLink } from '../config';
-const wa = whatsappLink();
+import { SITE } from '../config';
 const year = new Date().getFullYear();
 ---
-<footer id="contact">
+<footer class="site-footer">
   <div class="wrap">
-    <div class="contact">
-      <div class="gradient"></div>
-      <Portrait />
-      <div class="contact-main">
-        <h2>Me contacter</h2>
-        <div class="contact-cols">
-          <div>
-            <h3>Partenariat ou projet d'agence</h3>
-            <div class="badges" style="gap:10px">
-              <a class="pill" href="/contact">Écrivez-moi <Icon name="arrow" /></a>
-              {wa && <a class="pill" href={wa} target="_blank" rel="noopener">WhatsApp <Icon name="whatsapp" /></a>}
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="socials-block">
-        <h3>Suivez-moi sur les réseaux</h3>
-        <div class="socials">
-          <a href={SITE.socials.x} target="_blank" rel="noopener" aria-label="X (Twitter)"><Icon name="x" /></a>
-          <a href={SITE.socials.youtube} target="_blank" rel="noopener" aria-label="YouTube"><Icon name="youtube" /></a>
-          <a href={SITE.socials.linkedin} target="_blank" rel="noopener" aria-label="LinkedIn"><Icon name="linkedin" /></a>
-          {wa && <a href={wa} target="_blank" rel="noopener" aria-label="WhatsApp"><Icon name="whatsapp" /></a>}
-          <a href="/rss.xml" aria-label="Flux RSS de toutes les publications"><Icon name="rss" /></a>
-        </div>
-      </div>
-    </div>
-    <div class="legal">
-      <span>{SITE.name} © {year} · Les contenus ne constituent pas un conseil en investissement.</span>
-      <nav aria-label="Liens légaux"><a href="/publications">Publications</a><a href="/rss.xml">Flux RSS</a><a href="/mentions-legales">Mentions légales</a></nav>
-    </div>
+    <span>© {year} {SITE.name}</span>
+    <nav aria-label="Liens secondaires">
+      <a href={SITE.socials.x} target="_blank" rel="noopener">X</a>
+      <a href={SITE.socials.linkedin} target="_blank" rel="noopener">LinkedIn</a>
+      <a href={SITE.socials.youtube} target="_blank" rel="noopener">YouTube</a>
+      <a href="/rss.xml">RSS</a>
+      <a href="/mentions-legales">Mentions légales</a>
+    </nav>
   </div>
 </footer>

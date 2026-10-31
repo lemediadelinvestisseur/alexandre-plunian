@@ -1,39 +1,39 @@
 ---
 import Base from '../layouts/Base.astro';
-import Icon from '../components/Icon.astro';
-import OfferCard from '../components/OfferCard.astro';
+import Offers from '../components/Offers.astro';
 import Process from '../components/Process.astro';
 import { MEDIA_OFFERS } from '../data/offers';
 import { SITE, whatsappLink } from '../config';
 const wa = whatsappLink("Bonjour Alexandre, je souhaite recevoir le kit média du Média de l'investisseur.");
 ---
 <Base title="Partenariats média" description="Faites connaître votre produit financier auprès d'épargnants actifs : vidéos YouTube, articles avis et test, comparatifs et newsletter.">
-  <div class="wrap page-hero">
-    <p class="eyebrow">Le média · Partenariats</p>
-    <h1>Touchez une audience qui <em>investit vraiment.</em></h1>
-    <p class="lead">{SITE.media.name} et ma chaîne YouTube s'adressent à des épargnants qui comparent, se renseignent et passent à l'action. Je sélectionne les partenaires que je peux présenter honnêtement.</p>
-    <div class="actions">
-      <a class="pill primary" href="/contact">Demander le kit média <Icon name="arrow" /></a>
-      {wa && <a class="pill whatsapp" href={wa} target="_blank" rel="noopener">En parler sur WhatsApp <Icon name="whatsapp" /></a>}
-    </div>
-  </div>
-
-  <section style="padding-top: 24px">
-    <div class="wrap">
-      <div class="section-title"><div><p class="eyebrow">Formats</p><h2>Ce que je vous propose</h2></div></div>
-      <div class="offer-detail">{MEDIA_OFFERS.map((o) => <OfferCard offer={o} detailed />)}</div>
-    </div>
-  </section>
-
-  <section style="padding-top: 0">
-    <div class="wrap">
-      <div class="section-title"><div><p class="eyebrow">Pourquoi le média</p><h2>Une audience qualifiée</h2></div></div>
-      <div class="why">
-        <div><h3>Des lecteurs en phase de choix</h3><p>Les guides et comparatifs sont lus par des personnes qui s'apprêtent à ouvrir un compte ou à souscrire.</p></div>
-        <div><h3>Un contenu qui dure</h3><p>Les articles sont référencés sur Google et mis à jour : votre visibilité continue après la publication.</p></div>
-        <div><h3>Une parole indépendante</h3><p>Chaque partenariat est signalé. C'est ce qui rend la recommandation crédible pour les lecteurs.</p></div>
+  <div class="wrap">
+    <div class="intro">
+      <h1>Une audience qui investit vraiment.</h1>
+      <p class="lead">{SITE.media.name} et ma chaîne YouTube s'adressent à des épargnants qui comparent, se renseignent et passent à l'action. Je ne travaille qu'avec des partenaires que je peux présenter honnêtement.</p>
+      <div class="actions">
+        <a class="button" href={`mailto:${SITE.email}?subject=${encodeURIComponent('Kit média')}`}>Demander le kit média</a>
+        {wa && <a class="link" href={wa} target="_blank" rel="noopener">WhatsApp</a>}
       </div>
-      <Process />
     </div>
-  </section>
+
+    <section class="block">
+      <h2>Formats</h2>
+      <div><Offers offers={MEDIA_OFFERS} detailed /></div>
+    </section>
+
+    <section class="block">
+      <h2>Pourquoi le média</h2>
+      <div class="items">
+        <div class="item"><h3>Des lecteurs en phase de choix</h3><p>Les guides et comparatifs sont lus par des personnes qui s'apprêtent à ouvrir un compte ou à souscrire.</p></div>
+        <div class="item"><h3>Un contenu qui dure</h3><p>Les articles sont référencés sur Google et mis à jour : la visibilité continue après la publication.</p></div>
+        <div class="item"><h3>Une parole indépendante</h3><p>Chaque partenariat est signalé. C'est ce qui rend la recommandation crédible.</p></div>
+      </div>
+    </section>
+
+    <section class="block">
+      <h2>Déroulé</h2>
+      <div><Process /></div>
+    </section>
+  </div>
 </Base>

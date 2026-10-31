@@ -1,0 +1,14 @@
+---
+import type { Offer } from '../data/offers';
+interface Props { offers: Offer[]; detailed?: boolean }
+const { offers, detailed = false } = Astro.props;
+---
+<div class="items">
+  {offers.map((o) => (
+    <div class="item">
+      <h3>{o.title}</h3>
+      <p>{o.summary}</p>
+      {detailed && <ul>{o.details.map((d) => <li>{d}</li>)}</ul>}
+    </div>
+  ))}
+</div>

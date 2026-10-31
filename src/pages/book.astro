@@ -1,46 +1,41 @@
 ---
 import Base from '../layouts/Base.astro';
-import Icon from '../components/Icon.astro';
+import { SITE } from '../config';
 import { CLIENTS } from '../data/clients';
 
-const OFFER_LABEL = { media: 'LE MÉDIA', agency: "L'AGENCE" } as const;
+const OFFER_LABEL = { media: 'Média', agency: 'Agence' } as const;
 const sorted = [...CLIENTS].sort((a, b) => (b.year ?? 0) - (a.year ?? 0));
 ---
 <Base title="Références" description="Les marques et entreprises accompagnées par Alexandre Plunian : partenariats média et production de contenu.">
-  <div class="wrap page-hero">
-    <p class="eyebrow">Book · Références</p>
-    <h1>Ils m'ont fait <em>confiance.</em></h1>
-    <p class="lead">Les marques accompagnées avec le Média de l'investisseur et l'agence de contenu : ce qui a été réalisé, et les résultats.</p>
-  </div>
-
-  <section style="padding-top: 0">
-    <div class="wrap">
-      {sorted.length === 0 ? (
-        <div class="empty">
-          <p class="eyebrow">Book en préparation</p>
-          <h2>Les références arrivent bientôt.</h2>
-          <p>Vous voulez savoir avec quelles marques je travaille, ou voir des exemples de contenus réalisés ? Je vous envoie le book complet sur demande.</p>
-          <a class="pill primary" href="/contact">Recevoir le book <Icon name="arrow" /></a>
-        </div>
-      ) : (
-        <div class="clients">
-          {sorted.map((c) => (
-            <article class="client">
-              <div class="client-head">
-                <div class="client-logo">{c.logo ? <img src={c.logo} alt="" /> : c.name.slice(0, 1)}</div>
-                <div><h3>{c.name}</h3><p class="sector">{c.sector}{c.year ? ` · ${c.year}` : ''}</p></div>
-              </div>
-              <div class="badges">{c.offer.map((o) => <span class:list={['badge', o]}>{OFFER_LABEL[o]}</span>)}</div>
-              {c.summary && <p>{c.summary}</p>}
-              <ul>{c.deliverables.map((d) => <li>{d}</li>)}</ul>
-              {c.results && c.results.length > 0 && (
-                <div class="results">{c.results.map((r) => <div><b>{r.value}</b><span>{r.label}</span></div>)}</div>
-              )}
-              {c.url && <a class="pill outline" href={c.url} target="_blank" rel="noopener" style="align-self:flex-start">Voir le contenu <Icon name="external" /></a>}
-            </article>
-          ))}
-        </div>
-      )}
+  <div class="wrap">
+    <div class="intro">
+      <h1>Références.</h1>
+      <p class="lead">Les marques accompagnées avec le Média de l'investisseur et l'agence de contenu.</p>
     </div>
-  </section>
+
+    {sorted.length === 0 ? (
+      <section class="block">
+        <h2>Book</h2>
+        <div>
+          <p>Le book complet, avec les marques et des exemples de contenus réalisés, est envoyé sur demande.</p>
+          <div class="actions"><a class="button" href={`mailto:${SITE.email}?subject=${encodeURIComponent('Demande de book')}`}>Recevoir le book</a></div>
+        </div>
+      </section>
+    ) : (
+      sorted.map((c) => (
+        <section class="block">
+          <h2>{c.year ?? c.sector}</h2>
+          <div class="item">
+            <h3>{c.name}<span class="tag">{c.sector} · {c.offer.map((o) => OFFER_LABEL[o]).join(', ')}</span></h3>
+            {c.summary && <p>{c.summary}</p>}
+            <ul>{c.deliverables.map((d) => <li>{d}</li>)}</ul>
+            {c.results && c.results.length > 0 && (
+              <div class="figures">{c.results.map((r) => <div><b>{r.value}</b><span>{r.label}</span></div>)}</div>
+            )}
+            {c.url && <div class="actions"><a class="link arrow-out" href={c.url} target="_blank" rel="noopener">Voir le contenu</a></div>}
+          </div>
+        </section>
+      ))
+    )}
+  </div>
 </Base>

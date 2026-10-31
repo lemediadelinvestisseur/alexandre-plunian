@@ -1,7 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
-import Icon from '../components/Icon.astro';
-import PostCard from '../components/PostCard.astro';
+import PostRow from '../components/PostRow.astro';
 import { getPublications } from '../lib/feed';
 
 const all = await getPublications();
@@ -9,42 +8,38 @@ const all = await getPublications();
 const counts = new Map<string, number>();
 for (const p of all) if (p.category) counts.set(p.category, (counts.get(p.category) ?? 0) + 1);
 const categories = [...counts.entries()].sort((a, b) => b[1] - a[1]).map(([c]) => c);
-const PAGE = 24;
+const PAGE = 30;
 ---
 <Base title="Publications" description="Tous les articles du Média de l'investisseur et toutes les vidéos YouTube d'Alexandre Plunian, en un seul endroit.">
-  <div class="wrap page-hero">
-    <p class="eyebrow">Articles et vidéos</p>
-    <h1>Toutes mes <em>publications.</em></h1>
-    <p class="lead">Les articles du Média de l'investisseur et mes vidéos YouTube, mis à jour automatiquement chaque jour. {all.length} publications à ce jour.</p>
-    <div class="actions">
-      <a class="pill outline" href="/rss.xml"><Icon name="rss" /> S'abonner au flux RSS</a>
+  <div class="wrap">
+    <div class="intro">
+      <h1>Publications.</h1>
+      <p class="lead">Les articles du Média de l'investisseur et mes vidéos YouTube. {all.length} à ce jour, mis à jour chaque jour. <a href="/rss.xml">Flux RSS</a></p>
     </div>
-  </div>
 
-  <section style="padding-top: 0">
-    <div class="wrap">
-      <div class="filters" role="group" aria-label="Filtrer par rubrique">
-        <button type="button" aria-pressed="true" data-filter="">Tout</button>
-        {categories.map((c) => <button type="button" aria-pressed="false" data-filter={c}>{c}</button>)}
-      </div>
-      <div class="post-grid" data-page={PAGE}>
-        {all.map((p, i) => (
-          <div data-category={p.category ?? ''} hidden={i >= PAGE}><PostCard post={p} /></div>
-        ))}
-      </div>
-      <button class="pill outline load-more" type="button" hidden={all.length <= PAGE}>Afficher plus</button>
+    <div class="filters" role="group" aria-label="Filtrer par rubrique">
+      <button type="button" aria-pressed="true" data-filter="">Tout</button>
+      {categories.map((c) => <button type="button" aria-pressed="false" data-filter={c}>{c}</button>)}
     </div>
-  </section>
+    <div class="rows post-list" data-page={PAGE}>
+      {all.map((p, i) => (
+        <div data-category={p.category ?? ''} hidden={i >= PAGE}><PostRow post={p} /></div>
+      ))}
+    </div>
+    <button class="load-more arrow" type="button" hidden={all.length <= PAGE}>Afficher plus</button>
+  </div>
 </Base>
 <style>
-  .post-grid > div { display: flex; }
-  .post-grid > div > .post { flex: 1; }
+  /* Ruled list: every visible row has a top rule, so filtering never leaves a gap */
+  .post-list { border-bottom: 1px solid var(--line); }
+  .post-list > div { border-top: 1px solid var(--line) !important; }
+  .post-list .row { padding-top: 12px !important; }
 </style>
 <script>
-  const grid = document.querySelector<HTMLElement>('.post-grid')!;
-  const items = [...grid.children] as HTMLElement[];
+  const list = document.querySelector<HTMLElement>('.post-list')!;
+  const items = [...list.children] as HTMLElement[];
   const more = document.querySelector<HTMLButtonElement>('.load-more')!;
-  const step = Number(grid.dataset.page);
+  const step = Number(list.dataset.page);
   let filter = '';
   let shown = step;
 

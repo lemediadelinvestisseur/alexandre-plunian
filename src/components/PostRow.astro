@@ -1,0 +1,11 @@
+---
+import type { Publication } from '../lib/feed';
+
+interface Props { post: Publication }
+const { post } = Astro.props;
+const date = new Date(post.date).toLocaleDateString('fr-FR', { month: 'short', year: 'numeric' });
+---
+<a class="row" href={post.url} target="_blank" rel="noopener">
+  <span class="title">{post.title}{post.source === 'video' && <span class="muted"> · vidéo</span>}</span>
+  <time class="meta" datetime={post.date}>{date}</time>
+</a>
