@@ -5,7 +5,7 @@ import PostCard from '../components/PostCard.astro';
 import { getPublications } from '../lib/feed';
 
 const all = await getPublications();
-// Filtres : les rubriques présentes dans le flux, de la plus fournie à la moins fournie
+// Filters: categories present in the feed, from most to least populated
 const counts = new Map<string, number>();
 for (const p of all) if (p.category) counts.set(p.category, (counts.get(p.category) ?? 0) + 1);
 const categories = [...counts.entries()].sort((a, b) => b[1] - a[1]).map(([c]) => c);

@@ -3,7 +3,7 @@ import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
 import { CLIENTS } from '../data/clients';
 
-const OFFER_LABEL = { media: 'LE MÉDIA', agence: "L'AGENCE" } as const;
+const OFFER_LABEL = { media: 'LE MÉDIA', agency: "L'AGENCE" } as const;
 const sorted = [...CLIENTS].sort((a, b) => (b.year ?? 0) - (a.year ?? 0));
 ---
 <Base title="Références" description="Les marques et entreprises accompagnées par Alexandre Plunian : partenariats média et production de contenu.">
@@ -20,7 +20,7 @@ const sorted = [...CLIENTS].sort((a, b) => (b.year ?? 0) - (a.year ?? 0));
           <p class="eyebrow">Book en préparation</p>
           <h2>Les références arrivent bientôt.</h2>
           <p>Vous voulez savoir avec quelles marques je travaille, ou voir des exemples de contenus réalisés ? Je vous envoie le book complet sur demande.</p>
-          <a class="pill primary" href="/contact?offre=media">Recevoir le book <Icon name="arrow" /></a>
+          <a class="pill primary" href="/contact">Recevoir le book <Icon name="arrow" /></a>
         </div>
       ) : (
         <div class="clients">

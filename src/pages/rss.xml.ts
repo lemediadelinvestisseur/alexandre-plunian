@@ -1,4 +1,4 @@
-// Flux RSS unique de toutes les publications (articles du média + vidéos YouTube).
+// Single RSS feed of all publications (media articles + YouTube videos).
 import rss from '@astrojs/rss';
 import type { APIContext } from 'astro';
 import { getPublications } from '../lib/feed';

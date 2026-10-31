@@ -1,4 +1,4 @@
-// Offres pro : utilisées sur l'accueil (résumé) et sur les pages Média et Agence (détail).
+// Professional offers: used on the home page (summary) and the Media and Agency pages (detail).
 
 export type Offer = { icon: string; format: string; title: string; summary: string; details: string[] };
 

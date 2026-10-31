@@ -1,4 +1,4 @@
-// Informations générales du site : c'est ici qu'on modifie coordonnées et réseaux.
+// General site information: contact details and social links are edited here.
 
 export const SITE = {
   name: 'Alexandre Plunian',
@@ -7,8 +7,8 @@ export const SITE = {
     "Alexandre Plunian, investisseur et fondateur du Média de l'investisseur. Immobilier, bourse, cryptomonnaies, partenariats média et agence de contenu.",
   email: 'lemediadelinvestisseur@gmail.com',
   /**
-   * Numéro WhatsApp au format international, chiffres seulement (ex. « 33612345678 »).
-   * Tant qu'il est vide, les boutons WhatsApp ne s'affichent pas.
+   * WhatsApp number in international format, digits only (e.g. "33612345678").
+   * While empty, WhatsApp buttons are hidden.
    */
   whatsapp: '33615112384',
   whatsappMessage: "Bonjour Alexandre, je vous contacte depuis votre site au sujet d'un partenariat.",

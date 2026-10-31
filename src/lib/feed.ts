@@ -1,7 +1,6 @@
-// Flux de toutes les publications (articles du média + vidéos YouTube), lu au moment du build.
-// Ordre de priorité pour les articles : API Content de Ghost (tous les articles), sinon flux RSS
-// (15 derniers), sinon la copie locale src/data/posts-fallback.json. Une source indisponible
-// ne fait jamais échouer le build.
+// Feed of all publications (media articles + YouTube videos), read at build time.
+// Article source priority: Ghost Content API (all articles), then the RSS feed (latest 15),
+// then the local copy src/data/posts-fallback.json. An unavailable source never fails the build.
 import { XMLParser } from 'fast-xml-parser';
 import fallback from '../data/posts-fallback.json';
 
@@ -23,7 +22,7 @@ const parser = new XMLParser({ ignoreAttributes: false, attributeNamePrefix: '' 
 
 async function get(url: string): Promise<Response> {
   const res = await fetch(url, { signal: AbortSignal.timeout(15000) });
-  if (!res.ok) throw new Error(`${res.status} sur ${url}`);
+  if (!res.ok) throw new Error(`${res.status} on ${url}`);
   return res;
 }
 
@@ -31,7 +30,7 @@ const clean = (s: unknown) =>
   String(s ?? '').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
 const cut = (s: string, n = 220) => (s.length > n ? s.slice(0, n).replace(/\s\S*$/, '') + '…' : s);
 
-/** Libellés lisibles pour les rubriques Ghost dont le nom est un identifiant */
+/** Readable labels for Ghost tags whose name is an identifier */
 const CATEGORY_LABELS: Record<string, string> = { epargne: 'Épargne', Cryptomonnaie: 'Crypto' };
 const label = (c: string | null | undefined) => (c ? CATEGORY_LABELS[c] ?? c : null);
 
@@ -92,26 +91,26 @@ async function articles(): Promise<Publication[]> {
     try {
       return await ghostApi();
     } catch (e) {
-      console.warn(`[flux] API Ghost indisponible : ${(e as Error).message}`);
+      console.warn(`[feed] Ghost API unavailable: ${(e as Error).message}`);
     }
   }
   try {
     return await ghostRss();
   } catch (e) {
-    console.warn(`[flux] RSS Ghost indisponible : ${(e as Error).message}`);
+    console.warn(`[feed] Ghost RSS unavailable: ${(e as Error).message}`);
   }
   return (fallback as Publication[]).map((p) => ({ ...p, category: label(p.category), source: 'article' }));
 }
 
 let cache: Promise<Publication[]> | null = null;
 
-/** Toutes les publications, de la plus récente à la plus ancienne (résultat mis en cache pendant le build). */
+/** All publications, newest first (result cached for the duration of the build). */
 export function getPublications(): Promise<Publication[]> {
   cache ??= (async () => {
     const [a, v] = await Promise.all([
       articles(),
       youtube().catch((e) => {
-        console.warn(`[flux] YouTube indisponible : ${(e as Error).message}`);
+        console.warn(`[feed] YouTube unavailable: ${(e as Error).message}`);
         return [];
       }),
     ]);

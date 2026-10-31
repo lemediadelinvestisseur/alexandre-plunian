@@ -1,70 +1,59 @@
-# Site d'Alexandre Plunian
+# Alexandre Plunian's website
 
-Site personnel : investissements, partenariats média, agence de contenu, book clients et flux de toutes
-les publications. Construit avec [Astro](https://astro.build), hébergé sur Netlify, leads envoyés dans Brevo.
+Personal site: investments, media partnerships, content agency, client book and a feed of all
+publications. Built with [Astro](https://astro.build), hosted on Cloudflare.
 
 ## Pages
 
-| Page | Contenu |
+| Page | Content |
 | --- | --- |
-| `/` | Accueil : présentation, chiffres, résumé des offres, dernières publications |
-| `/investissements` | Les trois piliers (immobilier, bourse, crypto) et les guides liés |
-| `/media` | Offres de partenariat média (YouTube, articles, comparatifs, newsletter) |
-| `/agence` | Services de l'agence (réseaux sociaux, rédaction SEO, stratégie, vidéos courtes) |
-| `/book` | Références clients (`src/data/clients.ts`) |
-| `/publications` | Tous les articles et vidéos, filtrables par rubrique |
-| `/contact` | Formulaire de demande (envoyé dans Brevo), WhatsApp, e-mail |
-| `/rss.xml` | Flux RSS unique de toutes les publications |
+| `/` | Home: introduction, key figures, offer summary, latest publications |
+| `/investissements` | The three pillars (real estate, stocks, crypto) and related guides |
+| `/media` | Media partnership offers (YouTube, articles, comparisons, newsletter) |
+| `/agence` | Agency services (social media, SEO writing, strategy, short videos) |
+| `/book` | Client references (`src/data/clients.ts`) |
+| `/publications` | All articles and videos, filterable by category |
+| `/contact` | WhatsApp, email and social links |
+| `/rss.xml` | Single RSS feed of all publications |
 
-## Commandes
+## Commands
 
 ```sh
-npm install
-npm run dev      # http://localhost:4321
-npm run check    # vérification des types + build
+bun install
+bun run dev      # http://localhost:4321
+bun run check    # type check + build
 ```
 
-## Ce qu'il reste à renseigner
+## Still to fill in
 
-- **Book clients** : une entrée par client dans `src/data/clients.ts`, logos dans `public/clients/`.
-- **Mentions légales** : forme juridique, raison sociale et adresse dans `src/pages/mentions-legales.astro`.
+- **Client book**: one entry per client in `src/data/clients.ts`, logos in `public/clients/`.
+- **Legal notice**: legal form, company name and address in `src/pages/mentions-legales.astro`.
+- **Offers**: copy lives in `src/data/offers.ts`.
 
-Le numéro WhatsApp se change dans `src/config.ts` (format international sans « + ») ; la photo est
-`public/portrait.jpg` (format paysage 4:3).
-- **Offres** : textes dans `src/data/offers.ts`.
+The WhatsApp number is set in `src/config.ts` (international format without "+"); the photo is
+`public/portrait.jpg` (4:3 landscape).
 
-## Mise en ligne (Netlify)
+## Deployment (Cloudflare Workers)
 
-1. Sur [Netlify](https://app.netlify.com) : *Add new site → Import an existing project*, choisir ce dépôt.
-   Les réglages de build sont lus dans `netlify.toml`.
-2. Dans *Site configuration → Environment variables*, ajouter les variables de `.env.example`.
-3. Dans *Domain management*, brancher le nom de domaine, puis mettre à jour `SITE_URL`.
+`.github/workflows/deploy.yml` builds and deploys the site on every commit to `main`, and every
+morning. The Worker that serves the static site, and its custom domains, are configured in
+`wrangler.jsonc`.
 
-### Brevo (leads et newsletter)
+1. On Cloudflare, create an API token from the *Edit Cloudflare Workers* template (*My Profile → API Tokens*).
+2. On GitHub (*Settings → Secrets and variables → Actions*), add `CLOUDFLARE_API_TOKEN`, plus
+   `GHOST_CONTENT_API_KEY` for the publications feed.
 
-1. Créer deux listes dans *Contacts → Listes* : « Leads site » et « Newsletter ». Noter leurs identifiants
-   (`BREVO_LEADS_LIST_ID`, `BREVO_NEWSLETTER_LIST_ID`).
-2. Créer une clé API (*SMTP & API → Clés API*) → `BREVO_API_KEY`.
-3. Valider une adresse d'expéditeur (*Expéditeurs et domaines*) → `BREVO_SENDER_EMAIL`.
+Deploying from CI replaces any conflicting DNS records on the domains listed in `wrangler.jsonc`.
 
-À chaque demande envoyée depuis `/contact` :
-- le contact est créé (ou mis à jour) dans la liste « Leads site » ;
-- une affaire est créée dans le CRM Brevo (*CRM → Affaires*) avec le message en note, si `BREVO_CREATE_DEAL=true` ;
-- une alerte est envoyée à `LEAD_NOTIFY_EMAIL`, avec l'adresse du prospect en « Répondre à ».
+### Publications feed
 
-Si une étape échoue (ex. expéditeur non validé), les autres continuent ; les erreurs sont visibles dans
-Netlify → *Logs → Functions → lead*.
+The feed is read at build time:
+- **Articles**: Ghost Content API if `GHOST_CONTENT_API_KEY` is set (all articles), otherwise the
+  Ghost RSS feed (latest 15), otherwise the `src/data/posts-fallback.json` copy.
+  Key: Ghost → *Settings → Integrations → Add custom integration* → *Content API key*.
+- **Videos**: YouTube channel feed if `YOUTUBE_CHANNEL_ID` is set (ID starting with `UC…`, in
+  YouTube Studio → *Settings → Channel → Advanced settings*). The public YouTube feed returns the
+  latest 15 videos.
 
-### Flux de publications
-
-Le flux est lu au moment du build :
-- **Articles** : API Content de Ghost si `GHOST_CONTENT_API_KEY` est renseignée (tous les articles),
-  sinon le flux RSS de Ghost (15 derniers), sinon la copie `src/data/posts-fallback.json`.
-  Clé : Ghost → *Settings → Integrations → Add custom integration* → *Content API key*.
-- **Vidéos** : flux YouTube de la chaîne si `YOUTUBE_CHANNEL_ID` est renseigné (identifiant en `UC…`,
-  dans YouTube Studio → *Paramètres → Chaîne → Paramètres avancés*). Le flux YouTube public donne les 15 dernières vidéos.
-
-Pour que les nouvelles publications apparaissent chaque jour : créer un *Build hook* dans Netlify
-(*Build & deploy → Build hooks*) et l'ajouter comme secret GitHub `NETLIFY_BUILD_HOOK`. Le workflow
-`.github/workflows/rebuild.yml` reconstruit le site tous les matins. On peut aussi déclencher le hook
-depuis Ghost (*Integrations → Webhooks → Post published*) pour une mise à jour immédiate.
+The morning deployment picks up new publications. For an immediate update, run the workflow
+manually from the GitHub *Actions* tab.

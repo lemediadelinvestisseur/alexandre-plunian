@@ -93,7 +93,7 @@ const TICKER = ['PEA', 'ASSURANCE VIE', 'ETF S&P 500', 'SCPI', 'LOCATIF', 'BITCO
         </div>
         <div class="tabs" role="tablist" aria-label="Offres">
           <button role="tab" id="tab-media" aria-selected="true" aria-controls="panel-media">Le média</button>
-          <button role="tab" id="tab-agence" aria-selected="false" aria-controls="panel-agence">L'agence</button>
+          <button role="tab" id="tab-agency" aria-selected="false" aria-controls="panel-agency">L'agence</button>
         </div>
       </div>
 
@@ -107,8 +107,8 @@ const TICKER = ['PEA', 'ASSURANCE VIE', 'ETF S&P 500', 'SCPI', 'LOCATIF', 'BITCO
         <div class="offer-list">{MEDIA_OFFERS.map((o) => <OfferCard offer={o} />)}</div>
       </div>
 
-      <div class="offer" id="panel-agence" role="tabpanel" aria-labelledby="tab-agence" hidden>
-        <div class="offer-intro agence">
+      <div class="offer" id="panel-agency" role="tabpanel" aria-labelledby="tab-agency" hidden>
+        <div class="offer-intro agency">
           <span class="k">AGENCE DE CONTENU</span>
           <h3>Le savoir-faire du média, au service de votre marque.</h3>
           <p>Du contenu finance clair, juste et bien référencé, pour les fintechs, courtiers, plateformes d'investissement et conseillers.</p>
@@ -147,7 +147,7 @@ const TICKER = ['PEA', 'ASSURANCE VIE', 'ETF S&P 500', 'SCPI', 'LOCATIF', 'BITCO
 </Base>
 
 <script>
-  // Onglets Média / Agence
+  // Media / Agency tabs
   const tabs = document.querySelectorAll<HTMLButtonElement>('[role="tab"]');
   tabs.forEach((tab) =>
     tab.addEventListener('click', () => {
@@ -159,7 +159,7 @@ const TICKER = ['PEA', 'ASSURANCE VIE', 'ETF S&P 500', 'SCPI', 'LOCATIF', 'BITCO
     }),
   );
 
-  // Courbe de fond du panneau principal : marche aléatoire déterministe à tendance haussière
+  // Background curve of the main panel: deterministic random walk with an upward trend
   const c = document.getElementById('chart') as HTMLCanvasElement | null;
   const ctx = c?.getContext('2d');
   if (c && ctx) {

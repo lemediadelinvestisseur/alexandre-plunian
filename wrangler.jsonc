@@ -1,0 +1,14 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "alexandre-plunian",
+  "account_id": "dd0ddf3a5f72c608c8f22fc4069387a6",
+  "compatibility_date": "2026-10-23",
+  "routes": [
+    { "pattern": "alexandre-plunian.com", "custom_domain": true },
+    { "pattern": "www.alexandre-plunian.com", "custom_domain": true }
+  ],
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page"
+  }
+}

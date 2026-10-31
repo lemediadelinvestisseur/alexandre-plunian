@@ -1,7 +1,6 @@
 ---
 import Icon from './Icon.astro';
 import Portrait from './Portrait.astro';
-import NewsletterForm from './NewsletterForm.astro';
 import { SITE, whatsappLink } from '../config';
 const wa = whatsappLink();
 const year = new Date().getFullYear();
@@ -20,10 +19,6 @@ const year = new Date().getFullYear();
               <a class="pill" href="/contact">Écrivez-moi <Icon name="arrow" /></a>
               {wa && <a class="pill" href={wa} target="_blank" rel="noopener">WhatsApp <Icon name="whatsapp" /></a>}
             </div>
-          </div>
-          <div>
-            <h3>Inscrivez-vous à la newsletter</h3>
-            <NewsletterForm />
           </div>
         </div>
       </div>

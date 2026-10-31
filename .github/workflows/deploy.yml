@@ -1,0 +1,39 @@
+# Builds the site and deploys it to Cloudflare on every commit to main.
+# The daily run picks up new articles and videos for the Publications page and the RSS feed.
+# Required GitHub secret: CLOUDFLARE_API_TOKEN.
+# Optional GitHub secret: GHOST_CONTENT_API_KEY.
+name: Deploy to Cloudflare
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '17 5 * * *'
+  workflow_dispatch:
+concurrency:
+  group: deploy
+  cancel-in-progress: true
+permissions:
+  contents: read
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # Wrangler must run under Node, not Bun
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.4
+      - run: bun install --frozen-lockfile
+      - name: Build site
+        run: bun --bun run build
+        env:
+          GHOST_URL: https://lemediadelinvestisseur.ghost.io
+          GHOST_CONTENT_API_KEY: ${{ secrets.GHOST_CONTENT_API_KEY }}
+          YOUTUBE_CHANNEL_ID: UChjInilqnxyx9PhYxcC5o9w
+      - name: Deploy
+        run: bun x wrangler deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
