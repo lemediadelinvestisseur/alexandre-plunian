@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
 import OfferCard from '../components/OfferCard.astro';
 import Process from '../components/Process.astro';
+import ClientWall from '../components/ClientWall.astro';
 import { AGENCY_OFFERS } from '../data/offers';
 import { whatsappLink } from '../config';
 const wa = whatsappLink("Bonjour Alexandre, j'aimerais parler d'un projet de contenu avec votre agence.");
@@ -22,6 +23,16 @@ const wa = whatsappLink("Bonjour Alexandre, j'aimerais parler d'un projet de con
     <div class="wrap">
       <div class="section-title"><div><p class="eyebrow">Services</p><h2>Ce que nous prenons en charge</h2></div></div>
       <div class="offer-detail">{AGENCY_OFFERS.map((o) => <OfferCard offer={o} detailed />)}</div>
+    </div>
+  </section>
+
+  <section style="padding-top: 0">
+    <div class="wrap">
+      <div class="section-title">
+        <div><p class="eyebrow">Références</p><h2>Ils m'ont fait confiance</h2></div>
+        <a class="pill" href="/parcours">Voir les articles réalisés <Icon name="arrow" /></a>
+      </div>
+      <ClientWall />
     </div>
   </section>
 

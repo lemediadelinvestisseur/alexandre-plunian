@@ -1,23 +1,58 @@
-// Client book: one entry per client. The logo is optional (file in public/clients/).
-// The /book page shows a placeholder state while this list is empty.
+// Clients Alexandre has written for. Shown as a logo wall on /agence and the home page, and in
+// detail on /parcours (author page link and article history).
+//
+// Logos are picked up automatically from public/clients/<slug>.svg (or .png, .webp, .jpg).
+// Without a file, the client's name is shown as a text wordmark.
 
-export type Client = {
-  name: string;
-  /** Sector, e.g. "Courtier en ligne", "Plateforme crypto" */
-  sector: string;
-  /** Work done: media (partnership) and/or agency (content production) */
-  offer: ('media' | 'agency')[];
-  /** Deliverables, e.g. ["Vidéo YouTube dédiée", "Article avis et test"] */
-  deliverables: string[];
-  /** Short sentence about the result or context (optional) */
-  summary?: string;
-  /** Figures to display (optional): { value: "120 000", label: "vues" } */
-  results?: { value: string; label: string }[];
-  /** Logo path inside public/, e.g. "/clients/meilleurtaux.svg" (optional) */
-  logo?: string;
-  /** Link to the delivered content (optional) */
-  url?: string;
-  year?: number;
+export type ClientArticle = {
+  title: string;
+  url: string;
+  /** ISO date, e.g. "2023-05-14" */
+  date: string;
 };
 
-export const CLIENTS: Client[] = [];
+export type Client = {
+  /** Used for the logo file name and the /parcours#slug anchor */
+  slug: string;
+  name: string;
+  /** One line about the client, e.g. "Plateforme d'investissement dans les terres agricoles" */
+  sector?: string;
+  website?: string;
+  /** Work done: media (partnership) and/or agency (content production) */
+  offer: ('media' | 'agency')[];
+  /** Year the collaboration started */
+  since?: number;
+  /** Alexandre's author page on the client's site */
+  authorPage?: string;
+  /** Selection of articles written for the client, newest first or in any order */
+  articles: ClientArticle[];
+};
+
+export const CLIENTS: Client[] = [
+  {
+    slug: 'hectarea',
+    name: 'Hectarea',
+    sector: "Investissement dans les terres agricoles",
+    offer: ['agency'],
+    articles: [],
+  },
+  { slug: 'avenue-de-l-ia', name: "Avenue de l'IA", offer: ['agency'], articles: [] },
+  {
+    slug: 'coinacademy',
+    name: 'Coinacademy',
+    sector: 'Média et formation crypto',
+    offer: ['agency'],
+    articles: [],
+  },
+  { slug: 'verysaas', name: 'Verysaas.io', website: 'https://verysaas.io', offer: ['agency'], articles: [] },
+  { slug: 'finixio', name: 'Finixio', offer: ['agency'], articles: [] },
+  { slug: 'clickout-media', name: 'Clickout Média', offer: ['agency'], articles: [] },
+];
+
+/** Alexandre's own media, shown first in the history on /parcours */
+export const OWN_MEDIA = {
+  name: "Le Média de l'investisseur",
+  role: 'Fondateur et rédacteur',
+  since: 2022,
+  authorPage: 'https://lemediadelinvestisseur.fr/auteurs/alexandre-plunian/',
+} as const;

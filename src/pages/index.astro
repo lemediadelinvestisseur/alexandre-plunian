@@ -6,7 +6,7 @@ import Process from '../components/Process.astro';
 import PostCard from '../components/PostCard.astro';
 import { SITE } from '../config';
 import { MEDIA_OFFERS, AGENCY_OFFERS } from '../data/offers';
-import { CLIENTS } from '../data/clients';
+import ClientWall from '../components/ClientWall.astro';
 import { getPublications } from '../lib/feed';
 
 const latest = (await getPublications()).slice(0, 8);
@@ -121,19 +121,15 @@ const TICKER = ['PEA', 'ASSURANCE VIE', 'ETF S&P 500', 'SCPI', 'LOCATIF', 'BITCO
     </div>
   </section>
 
-  {CLIENTS.length > 0 && (
-    <section style="padding-top: 0">
-      <div class="wrap">
-        <div class="section-title">
-          <div><p class="eyebrow">Références</p><h2>Ils m'ont fait confiance</h2></div>
-          <a class="pill" href="/book">Voir le book <Icon name="arrow" /></a>
-        </div>
-        <div class="badges" style="gap:10px">
-          {CLIENTS.map((c) => <span class="pill">{c.name}</span>)}
-        </div>
+  <section style="padding-top: 0">
+    <div class="wrap">
+      <div class="section-title">
+        <div><p class="eyebrow">Références</p><h2>Ils m'ont fait confiance</h2></div>
+        <a class="pill" href="/parcours">Voir mon parcours <Icon name="arrow" /></a>
       </div>
-    </section>
-  )}
+      <ClientWall />
+    </div>
+  </section>
 
   <section style="padding-top: 0">
     <div class="wrap">

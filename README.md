@@ -11,7 +11,7 @@ publications. Built with [Astro](https://astro.build), hosted on Cloudflare.
 | `/investissements` | The three pillars (real estate, stocks, crypto) and related guides |
 | `/media` | Media partnership offers (YouTube, articles, comparisons, newsletter) |
 | `/agence` | Agency services (social media, SEO writing, strategy, short videos) |
-| `/book` | Client references (`src/data/clients.ts`) |
+| `/parcours` | Writing history: author pages and articles per client (`src/data/clients.ts`) |
 | `/publications` | All articles and videos, filterable by category |
 | `/contact` | WhatsApp, email and social links |
 | `/rss.xml` | Single RSS feed of all publications |
@@ -26,7 +26,8 @@ bun run check    # type check + build
 
 ## Still to fill in
 
-- **Client book**: one entry per client in `src/data/clients.ts`, logos in `public/clients/`.
+- **Clients**: author page, start year and articles per client in `src/data/clients.ts`; logos as
+  `public/clients/<slug>.svg` (or `.png`, `.webp`, `.jpg`).
 - **Legal notice**: legal form, company name and address in `src/pages/mentions-legales.astro`.
 - **Offers**: copy lives in `src/data/offers.ts`.
 
