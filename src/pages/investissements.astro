@@ -1,0 +1,73 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import { getPublications } from '../lib/feed';
+
+const all = await getPublications();
+const pick = (re: RegExp) => all.filter((p) => re.test(p.category ?? '')).slice(0, 3);
+const PILLARS = [
+  {
+    icon: 'house', code: 'PIERRE', title: 'Immobilier',
+    text: "L'immobilier apporte des revenus réguliers et un effet de levier grâce au crédit. Je regarde d'abord le rendement net, la fiscalité et la qualité de l'emplacement, puis les SCPI pour diversifier sans gestion.",
+    themes: ['Locatif', 'Rendement et fiscalité', 'SCPI'],
+    posts: pick(/immobilier/i),
+  },
+  {
+    icon: 'bars', code: 'ETF · PEA', title: 'Bourse',
+    text: "Le cœur du patrimoine sur le long terme : des ETF larges et peu chers, logés dans les bonnes enveloppes (PEA, assurance vie, CTO), complétés par quelques actions à dividendes.",
+    themes: ['ETF', 'PEA et assurance vie', 'Dividendes'],
+    posts: pick(/bourse/i),
+  },
+  {
+    icon: 'coin', code: 'BTC · ETH', title: 'Cryptomonnaies',
+    text: "Une poche de conviction, dimensionnée pour accepter la volatilité. Bitcoin et Ethereum en priorité, et une veille suivie de l'écosystème avant tout autre projet.",
+    themes: ['Bitcoin', 'Ethereum', 'Veille et sécurité'],
+    posts: pick(/crypto/i),
+  },
+];
+---
+<Base title="Investissements" description="Ma méthode d'investissement en immobilier, bourse et cryptomonnaies, et les guides du Média de l'investisseur pour chaque univers.">
+  <div class="wrap page-hero">
+    <p class="eyebrow">Investissements</p>
+    <h1>Trois piliers, <em>une méthode.</em></h1>
+    <p class="lead">J'investis depuis 2019 et je partage ce que j'apprends depuis 2022. Mon approche : des choix expliqués, des chiffres vérifiables et aucune promesse de gain.</p>
+  </div>
+
+  {PILLARS.map((p) => (
+    <section style="padding-block: 0 96px">
+      <div class="wrap invest">
+        <div>
+          <p class="eyebrow">{p.code}</p>
+          <h2>{p.title}</h2>
+          <div class="badges" style="margin-top:20px">{p.themes.map((t) => <span class="badge">{t}</span>)}</div>
+        </div>
+        <div class="invest-body" style="padding-top:20px">
+          <p>{p.text}</p>
+          {p.posts.length > 0 && (
+            <div class="alloc">
+              {p.posts.map((post) => (
+                <a class="alloc-row" href={post.url} target="_blank" rel="noopener" style="text-decoration:none">
+                  <div class="ico"><Icon name={p.icon} /></div>
+                  <div><h3 style="font-size:18px">{post.title}</h3></div>
+                  <Icon name="external" class="row-arrow" />
+                </a>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
+  ))}
+
+  <section style="padding-top: 0">
+    <div class="wrap">
+      <div class="empty">
+        <p class="eyebrow">Avertissement</p>
+        <p>Investir comporte un risque de perte en capital. Les contenus de ce site et du Média de l'investisseur sont pédagogiques et ne constituent pas un conseil en investissement personnalisé. Les performances passées ne préjugent pas des performances futures.</p>
+      </div>
+    </div>
+  </section>
+</Base>
+<style>
+  .row-arrow { width: 20px; height: 20px; color: var(--muted); }
+</style>

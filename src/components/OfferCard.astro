@@ -1,0 +1,12 @@
+---
+import Icon from './Icon.astro';
+import type { Offer } from '../data/offers';
+interface Props { offer: Offer; detailed?: boolean }
+const { offer, detailed = false } = Astro.props;
+---
+<div class="card">
+  <div class="card-top"><Icon name={offer.icon} /><span class="fmt">{offer.format}</span></div>
+  <h4>{offer.title}</h4>
+  <p>{offer.summary}</p>
+  {detailed && <ul>{offer.details.map((d) => <li>{d}</li>)}</ul>}
+</div>

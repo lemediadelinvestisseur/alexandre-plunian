@@ -1,0 +1,70 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import PostCard from '../components/PostCard.astro';
+import { getPublications } from '../lib/feed';
+
+const all = await getPublications();
+// Filtres : les rubriques présentes dans le flux, de la plus fournie à la moins fournie
+const counts = new Map<string, number>();
+for (const p of all) if (p.category) counts.set(p.category, (counts.get(p.category) ?? 0) + 1);
+const categories = [...counts.entries()].sort((a, b) => b[1] - a[1]).map(([c]) => c);
+const PAGE = 24;
+---
+<Base title="Publications" description="Tous les articles du Média de l'investisseur et toutes les vidéos YouTube d'Alexandre Plunian, en un seul endroit.">
+  <div class="wrap page-hero">
+    <p class="eyebrow">Articles et vidéos</p>
+    <h1>Toutes mes <em>publications.</em></h1>
+    <p class="lead">Les articles du Média de l'investisseur et mes vidéos YouTube, mis à jour automatiquement chaque jour. {all.length} publications à ce jour.</p>
+    <div class="actions">
+      <a class="pill outline" href="/rss.xml"><Icon name="rss" /> S'abonner au flux RSS</a>
+    </div>
+  </div>
+
+  <section style="padding-top: 0">
+    <div class="wrap">
+      <div class="filters" role="group" aria-label="Filtrer par rubrique">
+        <button type="button" aria-pressed="true" data-filter="">Tout</button>
+        {categories.map((c) => <button type="button" aria-pressed="false" data-filter={c}>{c}</button>)}
+      </div>
+      <div class="post-grid" data-page={PAGE}>
+        {all.map((p, i) => (
+          <div data-category={p.category ?? ''} hidden={i >= PAGE}><PostCard post={p} /></div>
+        ))}
+      </div>
+      <button class="pill outline load-more" type="button" hidden={all.length <= PAGE}>Afficher plus</button>
+    </div>
+  </section>
+</Base>
+<style>
+  .post-grid > div { display: flex; }
+  .post-grid > div > .post { flex: 1; }
+</style>
+<script>
+  const grid = document.querySelector<HTMLElement>('.post-grid')!;
+  const items = [...grid.children] as HTMLElement[];
+  const more = document.querySelector<HTMLButtonElement>('.load-more')!;
+  const step = Number(grid.dataset.page);
+  let filter = '';
+  let shown = step;
+
+  function render() {
+    const matching = items.filter((el) => !filter || el.dataset.category === filter);
+    items.forEach((el) => (el.hidden = true));
+    matching.slice(0, shown).forEach((el) => (el.hidden = false));
+    more.hidden = matching.length <= shown;
+  }
+
+  document.querySelectorAll<HTMLButtonElement>('.filters button').forEach((b) =>
+    b.addEventListener('click', () => {
+      document.querySelectorAll('.filters button').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+      filter = b.dataset.filter ?? '';
+      shown = step;
+      render();
+    }),
+  );
+  more.addEventListener('click', () => {
+    shown += step;
+    render();
+  });
+</script>

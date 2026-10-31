@@ -1,0 +1,44 @@
+---
+// Icônes au trait (24 × 24). `fill` pour les logos pleins (réseaux sociaux).
+const ICONS: Record<string, { d: string; fill?: boolean }> = {
+  arrow: { d: '<path d="M5 12h14M13 6l6 6-6 6"/>' },
+  external: { d: '<path d="M7 17 17 7M9 7h8v8"/>' },
+  trend: { d: '<path d="M4 18 9 12l4 3 7-9"/><path d="M15 6h5v5"/>' },
+  play: { d: '<rect x="3" y="5" width="18" height="14" rx="3"/><path d="m10 9 5 3-5 3V9Z" fill="currentColor"/>' },
+  mail: { d: '<rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m3 7 9 6 9-6"/>' },
+  menu: { d: '<path d="M4 7h16M4 12h16M4 17h16"/>' },
+  close: { d: '<path d="M6 6l12 12M18 6 6 18"/>' },
+  house: { d: '<path d="M3 11 12 4l9 7v9H3v-9Z"/><path d="M9 20v-6h6v6"/>' },
+  bars: { d: '<path d="M4 19V9M10 19V5M16 19v-7M22 19H2"/>' },
+  coin: { d: '<circle cx="12" cy="12" r="9"/><path d="M9.5 7.5h4a2.25 2.25 0 0 1 0 4.5h-4m0 0h4.5a2.25 2.25 0 0 1 0 4.5h-4.5M9.5 7.5v9M11 6v1.5M11 16.5V18"/>' },
+  article: { d: '<path d="M6 3h9l4 4v14H6V3Z"/><path d="M9 11h7M9 15h7M9 7h4"/>' },
+  list: { d: '<path d="M4 6h16M4 12h16M4 18h10"/>' },
+  share: { d: '<circle cx="7" cy="12" r="2.5"/><circle cx="17" cy="6" r="2.5"/><circle cx="17" cy="18" r="2.5"/><path d="m9.2 10.8 5.6-3.4M9.2 13.2l5.6 3.4"/>' },
+  pen: { d: '<path d="M4 20h4L19 9l-4-4L4 16v4Z"/><path d="m13.5 6.5 4 4"/>' },
+  target: { d: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1" fill="currentColor"/>' },
+  video: { d: '<rect x="3" y="6" width="13" height="12" rx="2.5"/><path d="m16 10 5-3v10l-5-3"/>' },
+  chart: { d: '<path d="M3 20h18M6 16l4-5 3 3 6-8"/>' },
+  clock: { d: '<circle cx="12" cy="12" r="9"/><path d="M12 3v9l6.5 6"/>' },
+  rss: { d: '<path d="M5 19h.01M5 12a7 7 0 0 1 7 7M5 5a14 14 0 0 1 14 14"/>' },
+  x: { fill: true, d: '<path d="M17.8 3h3.1l-6.8 7.8 8 10.2h-6.3l-4.9-6.4L5.3 21H2.2l7.3-8.3L1.9 3h6.4l4.4 5.9L17.8 3Zm-1.1 16.2h1.7L7.4 4.7H5.6l11.1 14.5Z"/>' },
+  youtube: { fill: true, d: '<path d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2 31 31 0 0 0 .5 12 31 31 0 0 0 1 16.8a3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1 31 31 0 0 0 .5-4.8 31 31 0 0 0-.5-4.8ZM9.8 15V9l5.7 3-5.7 3Z"/>' },
+  linkedin: { fill: true, d: '<path d="M20.4 2H3.6A1.6 1.6 0 0 0 2 3.6v16.8A1.6 1.6 0 0 0 3.6 22h16.8a1.6 1.6 0 0 0 1.6-1.6V3.6A1.6 1.6 0 0 0 20.4 2ZM8 19H5V9.5h3V19ZM6.5 8.2a1.7 1.7 0 1 1 0-3.4 1.7 1.7 0 0 1 0 3.4ZM19 19h-3v-4.6c0-1.1 0-2.5-1.5-2.5S12.8 13 12.8 14.3V19h-3V9.5h2.9v1.3a3.2 3.2 0 0 1 2.8-1.6c3 0 3.5 2 3.5 4.5V19Z"/>' },
+  whatsapp: { fill: true, d: '<path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.4.8 3.2.6a2.8 2.8 0 0 0 1.8-1.3 2.3 2.3 0 0 0 .2-1.3c-.1-.1-.3-.2-.5-.3Z"/>' },
+};
+interface Props { name: keyof typeof ICONS | string; class?: string }
+const { name, class: cls } = Astro.props;
+const icon = ICONS[name];
+---
+{icon && (
+  <svg
+    class={cls}
+    viewBox="0 0 24 24"
+    aria-hidden="true"
+    fill={icon.fill ? 'currentColor' : 'none'}
+    stroke={icon.fill ? undefined : 'currentColor'}
+    stroke-width={icon.fill ? undefined : 1.8}
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    set:html={icon.d}
+  />
+)}

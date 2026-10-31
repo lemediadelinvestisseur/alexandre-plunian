@@ -1,0 +1,46 @@
+---
+import Icon from './Icon.astro';
+import { NAV, SITE } from '../config';
+
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const current = (href: string) => (path === href || path.startsWith(href + '/') ? 'page' : undefined);
+---
+<header class="nav">
+  <div class="wrap">
+    <a class="logo" href="/">{SITE.shortName}<span>.</span></a>
+    <a class="live" href={SITE.socials.youtube} target="_blank" rel="noopener"><i></i>YouTube</a>
+    <nav class="nav-links" aria-label="Navigation principale">
+      {NAV.map((l) => <a href={l.href} aria-current={current(l.href)}>{l.label}</a>)}
+    </nav>
+    <div class="pills">
+      <a class="pill" href={SITE.socials.x} target="_blank" rel="noopener">Twitter <Icon name="x" /></a>
+      <a class="pill" href={SITE.media.url} target="_blank" rel="noopener">Le média <Icon name="trend" /></a>
+      <a class="pill primary" href="/contact" aria-current={current('/contact')}>Travailler ensemble <Icon name="arrow" /></a>
+    </div>
+    <button class="burger" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Ouvrir le menu">
+      <Icon name="menu" />
+    </button>
+  </div>
+  <div class="mobile-menu" id="mobile-menu" hidden>
+    <nav class="wrap" aria-label="Navigation mobile">
+      <a href="/" aria-current={current('/') && path === '/' ? 'page' : undefined}>Accueil</a>
+      {NAV.map((l) => <a href={l.href} aria-current={current(l.href)}>{l.label}</a>)}
+      <a href="/contact" aria-current={current('/contact')}>Contact</a>
+      <div class="pills">
+        <a class="pill" href={SITE.socials.x} target="_blank" rel="noopener">Twitter <Icon name="x" /></a>
+        <a class="pill" href={SITE.media.url} target="_blank" rel="noopener">Le média <Icon name="trend" /></a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const btn = document.querySelector<HTMLButtonElement>('.burger')!;
+  const menu = document.getElementById('mobile-menu')!;
+  btn.addEventListener('click', () => {
+    const open = menu.hidden;
+    menu.hidden = !open;
+    btn.setAttribute('aria-expanded', String(open));
+    btn.setAttribute('aria-label', open ? 'Fermer le menu' : 'Ouvrir le menu');
+  });
+</script>

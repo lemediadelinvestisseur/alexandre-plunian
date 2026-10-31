@@ -1,0 +1,190 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import OfferCard from '../components/OfferCard.astro';
+import Process from '../components/Process.astro';
+import PostCard from '../components/PostCard.astro';
+import { SITE } from '../config';
+import { MEDIA_OFFERS, AGENCY_OFFERS } from '../data/offers';
+import { CLIENTS } from '../data/clients';
+import { getPublications } from '../lib/feed';
+
+const latest = (await getPublications()).slice(0, 8);
+const TICKER = ['PEA', 'ASSURANCE VIE', 'ETF S&P 500', 'SCPI', 'LOCATIF', 'BITCOIN', 'ETHEREUM', 'DIVIDENDES', 'CTO', 'FONDS STRUCTURÉS'];
+---
+<Base>
+  <div class="wrap">
+    <div class="hero-intro">
+      <p class="lead">Alexandre Plunian, fondateur du <strong>Média de l'investisseur</strong>. J'investis depuis 7 ans et j'aide les Français à faire de même.</p>
+      <p class="since">IMMOBILIER · BOURSE · CRYPTO<br />investisseur depuis <b>2019</b><br />pédagogue depuis <b>2022</b></p>
+    </div>
+
+    <div class="panel">
+      <div class="panel-grid"></div>
+      <canvas id="chart" aria-hidden="true"></canvas>
+      <div class="notch">
+        <a class="pill" href={SITE.socials.youtube} target="_blank" rel="noopener">Dernière vidéo <Icon name="play" /></a>
+      </div>
+      <div class="quote-chip c1">ETF MSCI World <b>▲ long terme</b></div>
+      <div class="quote-chip c2">Immobilier <b>▲ cash-flow</b></div>
+      <div class="quote-chip c3">BTC <b>▲ conviction</b></div>
+      <div class="panel-content">
+        <h1>Alexandre<span>Plunian</span></h1>
+        <div class="panel-tags">
+          <a class="tag-glass" href="/investissements">Investisseur</a>
+          <a class="tag-glass" href="/media">Fondateur de média</a>
+          <a class="tag-glass" href="/publications">Créateur YouTube</a>
+          <a class="tag-glass" href="/agence">Agence de contenu</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker-track">
+      {[...TICKER, ...TICKER].map((t) => <span><b>{t}</b><i>▲</i></span>)}
+    </div>
+  </div>
+
+  <section>
+    <div class="wrap stats">
+      <div class="stat">
+        <div class="stat-head">Expérience <Icon name="chart" /></div>
+        <div class="stat-num">7 <small>ANS</small></div>
+        <p>d'investissement personnel, sur les marchés comme dans la pierre.</p>
+      </div>
+      <div class="stat">
+        <div class="stat-head">Pédagogie <Icon name="play" /></div>
+        <div class="stat-num">4 <small>ANS</small></div>
+        <p>à expliquer l'investissement aux Français : articles, comparatifs, vidéos YouTube.</p>
+      </div>
+      <div class="stat">
+        <div class="stat-head">Expertises <Icon name="clock" /></div>
+        <div class="stat-num">3 <small>CLASSES D'ACTIFS</small></div>
+        <p>immobilier, bourse et cryptomonnaies, analysés avec la même méthode.</p>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding-top: 0">
+    <div class="wrap invest">
+      <div>
+        <p class="eyebrow">Investissements</p>
+        <h2>Investir avec méthode, sur le long terme, et montrer comment je le fais.</h2>
+      </div>
+      <div class="invest-body">
+        <p>Depuis 7 ans, je construis mon patrimoine sur trois piliers complémentaires. Ce que j'apprends en investissant mon propre argent nourrit directement le contenu du média.</p>
+        <div class="alloc">
+          <div class="alloc-row"><div class="ico"><Icon name="house" /></div><div><h3>Immobilier</h3><p>Locatif, rendement et fiscalité, SCPI.</p></div><span class="code">PIERRE</span></div>
+          <div class="alloc-row"><div class="ico"><Icon name="bars" /></div><div><h3>Bourse</h3><p>ETF, PEA, assurance vie, actions à dividendes.</p></div><span class="code">ETF · PEA</span></div>
+          <div class="alloc-row"><div class="ico"><Icon name="coin" /></div><div><h3>Cryptomonnaies</h3><p>Bitcoin, Ethereum et une veille sur l'écosystème.</p></div><span class="code">BTC · ETH</span></div>
+        </div>
+        <a class="pill outline" href="/investissements" style="align-self:flex-start">Ma méthode d'investissement <Icon name="arrow" /></a>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding-top: 0">
+    <div class="wrap">
+      <div class="pro-head">
+        <div>
+          <p class="eyebrow">Pour les marques et les entreprises</p>
+          <h2>Deux façons de travailler ensemble.</h2>
+        </div>
+        <div class="tabs" role="tablist" aria-label="Offres">
+          <button role="tab" id="tab-media" aria-selected="true" aria-controls="panel-media">Le média</button>
+          <button role="tab" id="tab-agence" aria-selected="false" aria-controls="panel-agence">L'agence</button>
+        </div>
+      </div>
+
+      <div class="offer" id="panel-media" role="tabpanel" aria-labelledby="tab-media">
+        <div class="offer-intro media">
+          <span class="k">PARTENARIATS MÉDIA</span>
+          <h3>Touchez une audience qui investit vraiment.</h3>
+          <p>Le Média de l'investisseur et ma chaîne YouTube parlent chaque semaine à des épargnants qui comparent, se renseignent et passent à l'action.</p>
+          <a class="pill" href="/media">Voir les offres média <Icon name="arrow" /></a>
+        </div>
+        <div class="offer-list">{MEDIA_OFFERS.map((o) => <OfferCard offer={o} />)}</div>
+      </div>
+
+      <div class="offer" id="panel-agence" role="tabpanel" aria-labelledby="tab-agence" hidden>
+        <div class="offer-intro agence">
+          <span class="k">AGENCE DE CONTENU</span>
+          <h3>Le savoir-faire du média, au service de votre marque.</h3>
+          <p>Du contenu finance clair, juste et bien référencé, pour les fintechs, courtiers, plateformes d'investissement et conseillers.</p>
+          <a class="pill" href="/agence">Voir les services de l'agence <Icon name="arrow" /></a>
+        </div>
+        <div class="offer-list">{AGENCY_OFFERS.map((o) => <OfferCard offer={o} />)}</div>
+      </div>
+
+      <Process />
+    </div>
+  </section>
+
+  {CLIENTS.length > 0 && (
+    <section style="padding-top: 0">
+      <div class="wrap">
+        <div class="section-title">
+          <div><p class="eyebrow">Références</p><h2>Ils m'ont fait confiance</h2></div>
+          <a class="pill" href="/book">Voir le book <Icon name="arrow" /></a>
+        </div>
+        <div class="badges" style="gap:10px">
+          {CLIENTS.map((c) => <span class="pill">{c.name}</span>)}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <section style="padding-top: 0">
+    <div class="wrap">
+      <div class="posts-head">
+        <div><p class="eyebrow">Articles et vidéos</p><h2>Dernières publications</h2></div>
+        <a class="pill" href="/publications">Toutes les publications <Icon name="arrow" /></a>
+      </div>
+      <div class="posts">{latest.map((p) => <PostCard post={p} />)}</div>
+    </div>
+  </section>
+</Base>
+
+<script>
+  // Onglets Média / Agence
+  const tabs = document.querySelectorAll<HTMLButtonElement>('[role="tab"]');
+  tabs.forEach((tab) =>
+    tab.addEventListener('click', () => {
+      tabs.forEach((t) => {
+        const on = t === tab;
+        t.setAttribute('aria-selected', String(on));
+        document.getElementById(t.getAttribute('aria-controls')!)!.hidden = !on;
+      });
+    }),
+  );
+
+  // Courbe de fond du panneau principal : marche aléatoire déterministe à tendance haussière
+  const c = document.getElementById('chart') as HTMLCanvasElement | null;
+  const ctx = c?.getContext('2d');
+  if (c && ctx) {
+    let seed = 7;
+    const rnd = () => (seed = (seed * 9301 + 49297) % 233280) / 233280;
+    const pts: number[] = [];
+    let v = 0;
+    for (let i = 0; i < 90; i++) { v += (rnd() - 0.42) * 1.6; pts.push(v); }
+    const draw = () => {
+      const dpr = devicePixelRatio || 1, w = c.clientWidth, h = c.clientHeight;
+      c.width = w * dpr; c.height = h * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      const min = Math.min(...pts), max = Math.max(...pts);
+      const x = (i: number) => (i / (pts.length - 1)) * w;
+      const y = (p: number) => h * 0.85 - ((p - min) / (max - min)) * h * 0.6;
+      ctx.beginPath();
+      pts.forEach((p, i) => (i ? ctx.lineTo(x(i), y(p)) : ctx.moveTo(x(i), y(p))));
+      ctx.strokeStyle = 'rgba(159,242,207,.9)'; ctx.lineWidth = 2.5; ctx.stroke();
+      ctx.lineTo(w, h); ctx.lineTo(0, h); ctx.closePath();
+      const g = ctx.createLinearGradient(0, 0, 0, h);
+      g.addColorStop(0, 'rgba(159,242,207,.32)'); g.addColorStop(1, 'rgba(159,242,207,0)');
+      ctx.fillStyle = g; ctx.fill();
+      ctx.beginPath(); ctx.arc(x(pts.length - 1) - 3, y(pts[pts.length - 1]), 6, 0, Math.PI * 2);
+      ctx.fillStyle = '#9FF2CF'; ctx.fill();
+    };
+    draw();
+    addEventListener('resize', draw);
+  }
+</script>

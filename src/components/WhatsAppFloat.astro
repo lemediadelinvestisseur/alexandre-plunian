@@ -1,0 +1,10 @@
+---
+import Icon from './Icon.astro';
+import { whatsappLink } from '../config';
+const wa = whatsappLink();
+---
+{wa && (
+  <a class="wa-float" href={wa} target="_blank" rel="noopener" aria-label="Me contacter sur WhatsApp">
+    <Icon name="whatsapp" />
+  </a>
+)}

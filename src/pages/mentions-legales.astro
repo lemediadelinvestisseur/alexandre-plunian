@@ -1,0 +1,25 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE } from '../config';
+---
+<Base title="Mentions légales">
+  <div class="wrap page-hero">
+    <p class="eyebrow">Informations légales</p>
+    <h1>Mentions <em>légales.</em></h1>
+  </div>
+  <div class="wrap prose">
+    <h2>Éditeur du site</h2>
+    <!-- À COMPLÉTER : forme juridique, raison sociale, adresse du siège, SIREN, numéro de TVA. -->
+    <p>{SITE.name} — [raison sociale, adresse et SIREN à compléter]<br />Contact : {SITE.email}<br />Directeur de la publication : {SITE.name}</p>
+
+    <h2>Hébergement</h2>
+    <p>Netlify, Inc. — 512 2nd Street, Suite 200, San Francisco, CA 94107, États-Unis.</p>
+
+    <h2>Données personnelles</h2>
+    <p>Les informations envoyées par le formulaire de contact et l'inscription à la newsletter servent uniquement à répondre aux demandes et à envoyer la newsletter. Elles sont conservées dans l'outil Brevo (Sendinblue SAS, France) et ne sont jamais revendues.</p>
+    <p>Conformément au RGPD, vous pouvez demander l'accès, la rectification ou la suppression de vos données en écrivant à {SITE.email}. Chaque newsletter contient un lien de désinscription.</p>
+
+    <h2>Avertissement</h2>
+    <p>Les contenus publiés sont pédagogiques et ne constituent pas un conseil en investissement personnalisé. Investir comporte un risque de perte en capital. Les partenariats commerciaux sont signalés comme tels.</p>
+  </div>
+</Base>

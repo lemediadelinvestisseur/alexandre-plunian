@@ -1,0 +1,115 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import { SITE, whatsappLink } from '../config';
+const wa = whatsappLink();
+---
+<Base title="Contact" description="Proposer un partenariat média, un projet d'agence ou une intervention à Alexandre Plunian.">
+  <div class="wrap page-hero">
+    <p class="eyebrow">Contact</p>
+    <h1>Travaillons <em>ensemble.</em></h1>
+    <p class="lead">Décrivez votre projet en quelques lignes. Je réponds sous 48 h ouvrées avec une première proposition.</p>
+  </div>
+
+  <section style="padding-top: 0">
+    <div class="wrap contact-layout">
+      <form class="form" id="lead-form" novalidate>
+        <fieldset class="field full" style="border:0;padding:0;margin:0">
+          <legend style="font-size:14px;font-weight:600;margin-bottom:7px">Votre demande</legend>
+          <div class="choice">
+            <label><input type="radio" name="offer" value="media" checked /> Partenariat média</label>
+            <label><input type="radio" name="offer" value="agence" /> Agence de contenu</label>
+            <label><input type="radio" name="offer" value="autre" /> Autre</label>
+          </div>
+        </fieldset>
+        <div class="field"><label for="f-firstname">Prénom</label><input id="f-firstname" name="firstname" autocomplete="given-name" required /></div>
+        <div class="field"><label for="f-lastname">Nom</label><input id="f-lastname" name="lastname" autocomplete="family-name" required /></div>
+        <div class="field"><label for="f-email">E-mail professionnel</label><input id="f-email" name="email" type="email" autocomplete="email" required /></div>
+        <div class="field"><label for="f-phone">Téléphone <small>(facultatif)</small></label><input id="f-phone" name="phone" type="tel" autocomplete="tel" /></div>
+        <div class="field"><label for="f-company">Entreprise</label><input id="f-company" name="company" autocomplete="organization" required /></div>
+        <div class="field">
+          <label for="f-budget">Budget indicatif <small>(facultatif)</small></label>
+          <select id="f-budget" name="budget">
+            <option value="">Je ne sais pas encore</option>
+            <option>Moins de 1 000 €</option>
+            <option>1 000 à 5 000 €</option>
+            <option>5 000 à 15 000 €</option>
+            <option>Plus de 15 000 €</option>
+          </select>
+        </div>
+        <div class="field full"><label for="f-message">Votre projet</label><textarea id="f-message" name="message" required placeholder="Votre produit, vos objectifs, vos dates…"></textarea></div>
+        <label class="consent full"><input type="checkbox" name="consent" required /> J'accepte que mes informations soient utilisées pour répondre à ma demande. Elles ne sont jamais revendues.</label>
+        <label class="consent full"><input type="checkbox" name="newsletter" /> Je veux aussi recevoir la newsletter.</label>
+        <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
+        <button class="pill primary" type="submit">Envoyer ma demande</button>
+        <p class="form-status full" role="status" aria-live="polite" hidden></p>
+      </form>
+
+      <aside class="side">
+        {wa && (
+          <div class="card">
+            <div class="card-top"><Icon name="whatsapp" /><span class="fmt">EN DIRECT</span></div>
+            <h4>WhatsApp</h4>
+            <p>Pour un échange rapide, écrivez-moi directement.</p>
+            <a class="pill whatsapp" href={wa} target="_blank" rel="noopener" style="align-self:flex-start">Ouvrir WhatsApp <Icon name="arrow" /></a>
+          </div>
+        )}
+        <div class="card">
+          <div class="card-top"><Icon name="mail" /><span class="fmt">E-MAIL</span></div>
+          <h4>Par e-mail</h4>
+          <p><a href={`mailto:${SITE.email}`}>{SITE.email}</a></p>
+        </div>
+        <div class="card">
+          <div class="card-top"><Icon name="share" /><span class="fmt">RÉSEAUX</span></div>
+          <h4>Sur les réseaux</h4>
+          <p><a href={SITE.socials.linkedin} target="_blank" rel="noopener">LinkedIn</a> · <a href={SITE.socials.x} target="_blank" rel="noopener">X</a> · <a href={SITE.socials.youtube} target="_blank" rel="noopener">YouTube</a></p>
+        </div>
+      </aside>
+    </div>
+  </section>
+</Base>
+
+<script>
+  const form = document.getElementById('lead-form') as HTMLFormElement;
+  const status = form.querySelector<HTMLElement>('.form-status')!;
+  const button = form.querySelector<HTMLButtonElement>('button[type="submit"]')!;
+
+  // Présélection de l'offre depuis le lien (/contact?offre=agence)
+  const preset = new URLSearchParams(location.search).get('offre');
+  const radio = form.querySelector<HTMLInputElement>(`input[name="offer"][value="${preset}"]`);
+  if (radio) radio.checked = true;
+
+  const show = (text: string, ok: boolean) => {
+    status.textContent = text;
+    status.className = `form-status full ${ok ? 'ok' : 'err'}`;
+    status.hidden = false;
+  };
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!form.checkValidity()) {
+      const first = form.querySelector<HTMLInputElement>(':invalid');
+      show(first?.name === 'consent' ? 'Cochez la case de consentement pour envoyer votre demande.' : 'Remplissez les champs obligatoires et vérifiez votre adresse e-mail.', false);
+      first?.focus();
+      return;
+    }
+    const data = Object.fromEntries(new FormData(form)) as Record<string, string>;
+    button.disabled = true;
+    button.textContent = 'Envoi…';
+    try {
+      const res = await fetch('/api/lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...data, type: 'lead', newsletter: data.newsletter === 'on' }),
+      });
+      if (!res.ok) throw new Error();
+      form.reset();
+      show('Merci, votre demande est bien arrivée. Je vous réponds sous 48 h ouvrées.', true);
+    } catch {
+      show("L'envoi n'a pas abouti. Réessayez, ou écrivez-moi directement par e-mail.", false);
+    } finally {
+      button.disabled = false;
+      button.textContent = 'Envoyer ma demande';
+    }
+  });
+</script>

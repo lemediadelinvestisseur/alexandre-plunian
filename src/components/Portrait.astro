@@ -1,0 +1,15 @@
+---
+// Affiche public/portrait.jpg s'il existe, sinon les initiales sur fond dégradé.
+import { existsSync } from 'node:fs';
+import { SITE } from '../config';
+
+interface Props { class?: string }
+const hasPhoto = existsSync('public/portrait.jpg');
+---
+<div class:list={['portrait', Astro.props.class]}>
+  {hasPhoto ? <img src="/portrait.jpg" alt={SITE.name} loading="lazy" /> : <span aria-hidden="true">AP</span>}
+</div>
+<style>
+  .portrait { overflow: hidden; }
+  .portrait img { width: 100%; height: 100%; object-fit: cover; }
+</style>
