@@ -8,6 +8,8 @@ import { SITE } from '../config';
 import { MEDIA_OFFERS, AGENCY_OFFERS } from '../data/offers';
 import ClientWall from '../components/ClientWall.astro';
 import { getPublications } from '../lib/feed';
+import Figures from '../components/Figures.astro';
+import { AUDIENCE } from '../data/audience';
 
 const latest = (await getPublications()).slice(0, 8);
 const TICKER = ['PEA', 'ASSURANCE VIE', 'ETF S&P 500', 'SCPI', 'LOCATIF', 'BITCOIN', 'ETHEREUM', 'DIVIDENDES', 'CTO', 'FONDS STRUCTURÉS'];
@@ -15,7 +17,7 @@ const TICKER = ['PEA', 'ASSURANCE VIE', 'ETF S&P 500', 'SCPI', 'LOCATIF', 'BITCO
 <Base>
   <div class="wrap">
     <div class="hero-intro">
-      <p class="lead">Alexandre Plunian, fondateur du <strong>Média de l'investisseur</strong>. J'investis depuis 7 ans et j'aide les Français à faire de même.</p>
+      <p class="lead">Alexandre Plunian, fondateur du <strong>Média de l'investisseur</strong> et <strong>21m²</strong>. J'investis depuis 7 ans et j'aide les Français à faire de même.</p>
       <p class="since">IMMOBILIER · BOURSE · CRYPTO<br />investisseur depuis <b>2019</b><br />pédagogue depuis <b>2022</b></p>
     </div>
 
@@ -63,6 +65,16 @@ const TICKER = ['PEA', 'ASSURANCE VIE', 'ETF S&P 500', 'SCPI', 'LOCATIF', 'BITCO
         <div class="stat-num">3 <small>CLASSES D'ACTIFS</small></div>
         <p>immobilier, bourse et cryptomonnaies, analysés avec la même méthode.</p>
       </div>
+    </div>
+  </section>
+
+  <section style="padding-top: 0">
+    <div class="wrap">
+      <div class="section-title">
+        <div><p class="eyebrow">Audience</p><h2>Le média en chiffres</h2></div>
+        <a class="pill" href="/media">Voir les offres média <Icon name="arrow" /></a>
+      </div>
+      <Figures figures={AUDIENCE} />
     </div>
   </section>
 

@@ -1,8 +1,9 @@
-/* Layout: large rounded panels with a notch (hasheur style), figures styled like stock quotes
+/* Light theme only, on a white background.
+   Layout: large rounded panels with a notch (hasheur style), figures styled like stock quotes
    (green ▲), scrolling ticker band, blue → green gradient footer. */
 :root {
-  --bg: #EDF2FB;
-  --surface: #FFFFFF;
+  --bg: #FFFFFF;
+  --surface: #EEF2FA;
   --ink: #0B1430;
   --muted: #56617B;
   --line: #CCD6EA;
@@ -18,20 +19,8 @@
   --r-xl: 34px;
   --r-md: 18px;
   --wrap: 1240px;
+  color-scheme: light;
 }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: #080D1C; --surface: #111A33; --ink: #E9EEFB; --muted: #9AA6C3; --line: #24304F;
-    --blue: #7086FF; --blue-deep: #2A3FC4; --gain: #34D399; --chip: rgba(17,26,51,.85); --chip-ink: #E9EEFB;
-    --on-accent: #FFFFFF; color-scheme: dark;
-  }
-}
-:root[data-theme="dark"] {
-  --bg: #080D1C; --surface: #111A33; --ink: #E9EEFB; --muted: #9AA6C3; --line: #24304F;
-  --blue: #7086FF; --blue-deep: #2A3FC4; --gain: #34D399; --chip: rgba(17,26,51,.85); --chip-ink: #E9EEFB;
-  --on-accent: #FFFFFF; color-scheme: dark;
-}
-
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 body {
@@ -65,7 +54,7 @@ header.nav {
   font-family: var(--f-display); font-weight: 800; font-size: 21px; letter-spacing: -.01em;
   color: var(--blue); text-decoration: none; white-space: nowrap;
 }
-.logo span { color: var(--gain); }
+.logo span { color: var(--ink); font-weight: 600; }
 .live {
   display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 99px;
   background: var(--surface); font-size: 13px; font-weight: 600; text-decoration: none; color: var(--muted);
@@ -111,7 +100,7 @@ header.nav {
 }
 .notch::before { left: calc(var(--r-xl) * -1); top: 0; }
 .notch::after { right: 0; bottom: calc(var(--r-xl) * -1); }
-.notch .pill { position: absolute; top: 22px; right: 0; left: 26px; justify-content: space-between; border: 1px solid var(--line); }
+.notch .pill { position: absolute; top: 22px; right: 0; left: 26px; justify-content: space-between; border: 1px solid var(--line); color: var(--ink); }
 .panel canvas { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; }
 .panel-grid {
   position: absolute; inset: 0; z-index: -1; opacity: .18;
@@ -171,6 +160,18 @@ section { padding-block: 96px; }
 .stat-num small { font-size: .32em; font-family: var(--f-mono); letter-spacing: 0; }
 .stat p { color: var(--muted); font-size: 16px; max-width: 34ch; }
 @media (max-width: 860px) { .stats { grid-template-columns: 1fr; gap: 48px; } .stat:nth-child(2) { margin-top: 0; } }
+
+/* ── Audience figures ── */
+.figures { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px; }
+.figures.four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.figure { border-top: 3px solid var(--blue); padding-top: 20px; }
+.figure b {
+  display: block; font-family: var(--f-display); font-weight: 700; font-size: clamp(40px, 4.6vw, 60px);
+  line-height: 1.05; color: var(--gain); letter-spacing: -.03em; font-variant-numeric: tabular-nums;
+}
+.figure span { display: block; margin-top: 10px; color: var(--muted); font-size: 16px; max-width: 30ch; }
+.figures-source { margin-top: 32px; font-family: var(--f-mono); font-size: 12px; color: var(--muted); max-width: 90ch; }
+@media (max-width: 860px) { .figures, .figures.four { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px 20px; } }
 
 /* ── Investments ── */
 .invest { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 64px; }

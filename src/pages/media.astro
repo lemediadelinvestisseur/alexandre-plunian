@@ -4,6 +4,8 @@ import Icon from '../components/Icon.astro';
 import OfferCard from '../components/OfferCard.astro';
 import Process from '../components/Process.astro';
 import { MEDIA_OFFERS } from '../data/offers';
+import Figures from '../components/Figures.astro';
+import { AUDIENCE, RESULTS, PARTNERS } from '../data/audience';
 import { SITE, whatsappLink } from '../config';
 const wa = whatsappLink("Bonjour Alexandre, je souhaite recevoir le kit média du Média de l'investisseur.");
 ---
@@ -19,6 +21,20 @@ const wa = whatsappLink("Bonjour Alexandre, je souhaite recevoir le kit média d
   </div>
 
   <section style="padding-top: 24px">
+    <div class="wrap">
+      <div class="section-title"><div><p class="eyebrow">Audience</p><h2>Le média en chiffres</h2></div></div>
+      <Figures figures={AUDIENCE} />
+    </div>
+  </section>
+
+  <section style="padding-top: 0">
+    <div class="wrap">
+      <div class="section-title"><div><p class="eyebrow">Résultats</p><h2>Ce que nos contenus rapportent</h2></div></div>
+      <Figures figures={RESULTS} source={`Partenaires : ${PARTNERS.join(', ')}.`} />
+    </div>
+  </section>
+
+  <section style="padding-top: 0">
     <div class="wrap">
       <div class="section-title"><div><p class="eyebrow">Formats</p><h2>Ce que je vous propose</h2></div></div>
       <div class="offer-detail">{MEDIA_OFFERS.map((o) => <OfferCard offer={o} detailed />)}</div>

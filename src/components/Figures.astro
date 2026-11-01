@@ -1,0 +1,10 @@
+---
+// Grid of key figures (big number + label), with an optional source line.
+import { AUDIENCE_SOURCE, type Figure } from '../data/audience';
+interface Props { figures: Figure[]; source?: string }
+const { figures, source = AUDIENCE_SOURCE } = Astro.props;
+---
+<div class:list={["figures", { four: figures.length === 4 }]}>
+  {figures.map((f) => <div class="figure"><b>{f.value}</b><span>{f.label}</span></div>)}
+</div>
+<p class="figures-source">{source}</p>
