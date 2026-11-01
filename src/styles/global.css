@@ -1,4 +1,4 @@
-/* Monochrome, type-only design: one narrow column, hairline rules, no color, no icons.
+/* Monochrome, type-only design on a white background (no dark theme): one narrow column, hairline rules, no color, no icons.
    Sections use a label column on the left and content on the right (stacked on mobile). */
 :root {
   --bg: #FFFFFF;
@@ -10,17 +10,6 @@
   --wrap: 760px;
   color-scheme: light;
 }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: #0A0A0A; --ink: #EDEDED; --muted: #8F8F8F; --line: #232323; --hover: #141414;
-    color-scheme: dark;
-  }
-}
-:root[data-theme="dark"] {
-  --bg: #0A0A0A; --ink: #EDEDED; --muted: #8F8F8F; --line: #232323; --hover: #141414;
-  color-scheme: dark;
-}
-
 * { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; }
 body {
@@ -52,7 +41,8 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between;
   gap: 12px 24px; padding-top: 40px; padding-bottom: 40px;
 }
-.site-header .name { font-weight: 600; letter-spacing: -0.01em; }
+.site-header .name { letter-spacing: -0.01em; }
+.site-header .name b { font-weight: 700; letter-spacing: 0.02em; }
 .site-header nav { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 15px; }
 .site-header nav a { color: var(--muted); transition: color .15s; }
 .site-header nav a:hover, .site-header nav a[aria-current="page"] { color: var(--ink); }
@@ -124,6 +114,19 @@ a.row:hover .title { text-decoration: underline; text-underline-offset: 3px; tex
 .figures { display: flex; flex-wrap: wrap; gap: 8px 32px; margin-top: 12px; }
 .figures b { font-weight: 600; font-variant-numeric: tabular-nums; }
 .figures span { color: var(--muted); margin-left: 6px; }
+
+/* Key figures: ruled grid, large number over a short label */
+.figures-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 0 32px;
+}
+.figures-grid > div { padding-block: 16px 18px; border-top: 1px solid var(--line); }
+.figures-grid b {
+  display: block; font-size: 28px; line-height: 1.2; font-weight: 600; letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+.figures-grid span { display: block; margin-top: 4px; font-size: 14px; color: var(--muted); line-height: 1.45; }
+.source { margin-top: 20px; font-size: 13px; color: var(--muted); max-width: 40em; }
+@media (max-width: 420px) { .figures-grid b { font-size: 24px; } .figures-grid { gap: 0 20px; } }
 
 /* Numbered steps */
 .steps { counter-reset: step; }

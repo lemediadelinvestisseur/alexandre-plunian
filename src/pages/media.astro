@@ -2,6 +2,8 @@
 import Base from '../layouts/Base.astro';
 import Offers from '../components/Offers.astro';
 import Process from '../components/Process.astro';
+import Figures from '../components/Figures.astro';
+import { AUDIENCE, AUDIENCE_SOURCE, RESULTS, PARTNERS } from '../data/audience';
 import { MEDIA_OFFERS } from '../data/offers';
 import { SITE, whatsappLink } from '../config';
 const wa = whatsappLink("Bonjour Alexandre, je souhaite recevoir le kit média du Média de l'investisseur.");
@@ -16,6 +18,22 @@ const wa = whatsappLink("Bonjour Alexandre, je souhaite recevoir le kit média d
         {wa && <a class="link" href={wa} target="_blank" rel="noopener">WhatsApp</a>}
       </div>
     </div>
+
+    <section class="block">
+      <h2>Audience</h2>
+      <div>
+        <Figures figures={AUDIENCE} />
+        <p class="source">{AUDIENCE_SOURCE}</p>
+      </div>
+    </section>
+
+    <section class="block">
+      <h2>Résultats</h2>
+      <div>
+        <Figures figures={RESULTS} />
+        <p class="source">Partenaires : {PARTNERS.join(', ')}.</p>
+      </div>
+    </section>
 
     <section class="block">
       <h2>Formats</h2>

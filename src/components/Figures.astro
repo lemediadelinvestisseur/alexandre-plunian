@@ -1,0 +1,7 @@
+---
+import type { Figure } from '../data/audience';
+interface Props { figures: Figure[] }
+---
+<div class="figures-grid">
+  {Astro.props.figures.map((f) => <div><b>{f.value}</b><span>{f.label}</span></div>)}
+</div>

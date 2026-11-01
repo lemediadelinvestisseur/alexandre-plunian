@@ -2,6 +2,8 @@
 import Base from '../layouts/Base.astro';
 import Portrait from '../components/Portrait.astro';
 import PostRow from '../components/PostRow.astro';
+import Figures from '../components/Figures.astro';
+import { AUDIENCE, AUDIENCE_SOURCE } from '../data/audience';
 import { SITE, whatsappLink } from '../config';
 import { CLIENTS } from '../data/clients';
 import { getPublications } from '../lib/feed';
@@ -13,8 +15,8 @@ const wa = whatsappLink();
   <div class="wrap">
     <div class="intro">
       <Portrait />
-      <h1>Investisseur. Fondateur du Média de l'investisseur.</h1>
-      <p class="lead">J'investis depuis 2019 dans l'immobilier, la bourse et les cryptomonnaies. Depuis 2022, j'explique aux Français comment le faire avec méthode, et j'accompagne les marques de la finance dans leur contenu.</p>
+      <h1>Alexandre Plunian, fondateur du Média de l'investisseur et 21m².</h1>
+      <p class="lead">J'investis depuis 7 ans et j'aide les Français à faire de même.</p>
     </div>
 
     <section class="block">
@@ -23,9 +25,18 @@ const wa = whatsappLink();
         <ul class="rows">
           <li><a class="row" href={SITE.media.url} target="_blank" rel="noopener"><span class="title arrow-out">{SITE.media.name}</span><span class="meta">Fondateur</span></a></li>
           <li><a class="row" href={SITE.socials.youtube} target="_blank" rel="noopener"><span class="title arrow-out">Chaîne YouTube</span><span class="meta">Créateur</span></a></li>
+          <li><div class="row"><span class="title">21m²</span><span class="meta">Fondateur</span></div></li>
           <li><a class="row" href="/agence"><span class="title">Agence de contenu</span><span class="meta">Fondateur</span></a></li>
           <li><a class="row" href="/investissements"><span class="title">Investissements personnels</span><span class="meta">Depuis 2019</span></a></li>
         </ul>
+      </div>
+    </section>
+
+    <section class="block">
+      <h2>Audience</h2>
+      <div>
+        <Figures figures={AUDIENCE} />
+        <p class="source">{AUDIENCE_SOURCE}</p>
       </div>
     </section>
 
